@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+
+#
+# This is an example of the environment configuration for accessing the ORCID Public API sandbox.
+# You need to modify these values to support your access to the public API or sandbox.
+# These values were taken from the public documentation on the API
+# See: https://members.orcid.org/api/accessing-public-api
+#
+export ORCID_PUBLIC_API_URL=https://pub.sandbox.orcid.org
+export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
+export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
+export ORCID_REDIRECT_URI=YOUR_REGISTERED_REDIRECT_URI_GOES_HERE
