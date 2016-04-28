@@ -1,6 +1,8 @@
 
 # ot - Orcid Tools
 
-These are a set of tools for exploring the [orcid.org](http://orcid.org) API.
+Library for making command line tools that interact with the ORCID Public API
+
++ [orcid.org](http://orcid.org) API.
 
 
