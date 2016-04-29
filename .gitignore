@@ -30,3 +30,5 @@ bin/*
 *.xlsx
 *.xml
 *.json
+*.gz
+*.tar
