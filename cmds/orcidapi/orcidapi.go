@@ -27,13 +27,18 @@ import (
 	"os"
 	"strings"
 
+	// 3rd Party Libraries
+	"github.com/robertkrimen/otto"
+
 	// Caltech library packages
+	"github.com/caltechlibrary/ostdlib"
 	"github.com/caltechlibrary/ot"
 )
 
 var (
-	showHelp    bool
-	showVersion bool
+	showHelp      bool
+	showVersion   bool
+	jsInteractive bool
 )
 
 type Expr struct {
@@ -69,11 +74,17 @@ func processExpression(api *ot.OrcidAPI, src []byte) {
 	fmt.Printf("%s", src)
 }
 
+func init() {
+	flag.BoolVar(&showHelp, "h", false, "display help information")
+	flag.BoolVar(&showVersion, "v", false, "display version information")
+	flag.BoolVar(&jsInteractive, "i", false, "run an interactive JavaScript REPL")
+}
+
 func main() {
 	appname := os.Args[0]
 	flag.Parse()
 	if showHelp == true {
-		fmt.Printf(`USAGE: %s [OPTIONS] JSON_EXPRESSION
+		fmt.Printf(`USAGE: %s [OPTIONS] JSON_EXPRESSION|JS_FILENAME
 
 orcid message connects to the orcid API and submits a request based on the
 JSON EXPRESSION provided. The JSON expression has two fields ORCID and path
@@ -103,14 +114,31 @@ EXAMPLES
 		fmt.Println(" Version %s\n", ot.Version)
 		os.Exit(0)
 	}
+
 	api := ot.New()
 	_, err := api.Login()
 	if err != nil {
 		log.Fatalf("%s", err)
 	}
 
+	vm := otto.New()
+	js := ostdlib.New(vm)
+	js.AddExtensions()
+	api.AddExtensions(js)
+
 	args := flag.Args()
 	for _, expr := range args {
-		processExpression(api, []byte(expr))
+		if strings.HasSuffix(expr, ".js") == true {
+			js.Run(expr)
+		} else {
+			processExpression(api, []byte(expr))
+		}
+	}
+	if jsInteractive == true {
+		js.AddHelp()
+		api.AddHelp(js)
+		js.AddAutoComplete()
+		js.PrintDefaultWelcome()
+		js.Repl()
 	}
 }

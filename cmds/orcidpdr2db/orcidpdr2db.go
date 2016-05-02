@@ -28,10 +28,11 @@ import (
 	"os"
 	"path"
 	"strings"
-)
+	"time"
 
-const (
-	Version = "0.0.0"
+	// Caltech Library Packages
+	"github.com/boltdb/bolt"
+	"github.com/caltechlibrary/ot"
 )
 
 var (
@@ -39,14 +40,19 @@ var (
 	showVersion bool
 )
 
-func processTarBall(fname string) error {
+func processTarBall(fname, dbname string) error {
+	db, err := bolt.Open(dbname, 0600, &bolt.Options{Timeout: 1 * time.Second, ReadOnly: false})
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
 	reader, err := os.Open(fname)
 	if err != nil {
 		return err
 	}
 	defer reader.Close()
 
-	fmt.Printf("DEBUG getting ready to read %s\n", fname)
 	// Now setup to read the tar format
 	tarReader := tar.NewReader(reader)
 
@@ -77,31 +83,40 @@ func init() {
 func main() {
 	flag.Parse()
 	appname := path.Base(os.Args[0])
+	flag.Parse()
 	if showHelp == true {
-		fmt.Printf(` USAGE: %s [OPTIONS] PUBLIC_RELEASE_DATA_TAR_FILENAME
+		fmt.Printf(`USAGE: %s [OPTIONS] TAR_FILENAME DB_FILENAME
 
- %s transformations an ORCID Public Release tar file into a database suitable for
- generating triples, key/value pairs, relational data or for feeding into a search engine.
- 
+orcidpdr2db process an Orcid Public Data release file and turns it into an
+key/value database file suitable for further processing.
+
+EXAMPLE
+
+	%s ORCID_public_data_file_2015.tar pdr2015.boltDB
+
  OPTIONS
-
-`, appname, appname)
+`, appname, appname, appname, appname)
 		flag.VisitAll(func(f *flag.Flag) {
-			fmt.Printf("    -%s  (defaults to %s) %s\n", f.Name, f.Value, f.Usage)
+			fmt.Printf("\t-%s\t(defaults to %s) %s\n", f.Name, f.Value, f.Usage)
 		})
-		fmt.Printf("\n Version %s\n", Version)
+		fmt.Printf(`
+ Version %s
+`, ot.Version)
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Printf(" Version %s\n", Version)
+		fmt.Println(" Version %s\n", ot.Version)
 		os.Exit(0)
 	}
+
 	args := flag.Args()
-	for _, fname := range args {
-		log.Printf("Processing %s\n", fname)
-		err := processTarBall(fname)
-		if err != nil {
-			log.Printf("%s, %s\n", fname, err)
-		}
+	if len(args) != 2 {
+		fmt.Printf("Expecting a tar filename and db filename. Try %s -h for usage.\n", appname)
+		os.Exit(1)
+	}
+
+	err := processTarBall(args[0], args[1])
+	if err != nil {
+		log.Printf("%s, %s\n", args[0], err)
 	}
 }
