@@ -1,24 +1,66 @@
 package ot
 
 import (
-	"fmt"
 	"log"
+	"os"
 	"testing"
 )
 
 func TestEnvironmentSetup(t *testing.T) {
 	api := New()
-	fmt.Printf("DEBUG api.URL: %s\n", api.URL)
 	if api == nil {
 		log.Fatalf("Environment is not setup properly")
 	}
 }
 
-func TestBasic(t *testing.T) {
+func TestLogin(t *testing.T) {
 	api := New()
 	data, err := api.Login()
 	if err != nil {
 		t.Errorf("api.Login(), %s", err)
 	}
-	fmt.Printf("DEBUG data: %s\n", data)
+	if data.Error != "" {
+		t.Errorf("api.Login() returned an error reply %s", data)
+	}
+	if data.AccessToken == "" {
+		t.Errorf("api.Login() missing access_token %s", data)
+	}
+	if data.TokenType == "" {
+		t.Errorf("api.Login() missing token_type %s", data)
+	}
+}
+
+func TestGetAPI(t *testing.T) {
+	var err error
+	api := New()
+	_, err = api.Login()
+	if err != nil {
+		t.Errorf("api.Login() error %s", err)
+	}
+	orcid := "0000-0002-2389-8429"
+	_, err = api.GetBio(orcid)
+	if err != nil {
+		t.Errorf("api.GetBio(%q) error %s", orcid, err)
+	}
+	_, err = api.GetWorks(orcid)
+	if err != nil {
+		t.Errorf("api.GetWorks(%q) error %s", orcid, err)
+	}
+	_, err = api.GetProfile(orcid)
+	if err != nil {
+		t.Errorf("api.GetProfile(%q) error %s", orcid, err)
+	}
+}
+
+func setup() {
+	os.Setenv("ORCID_API_URL", "https://pub.sandbox.orcid.org")
+	os.Setenv("ORCID_CLIENT_ID", "APP-01XX65MXBF79VJGF")
+	os.Setenv("ORCID_CLIENT_SECRET", "3a87028d-c84c-4d5f-8ad5-38a93181c9e1")
+	os.Setenv("ORCID_ACCESS_TOKEN", "")
+}
+
+func TestMain(m *testing.M) {
+	setup()
+	code := m.Run()
+	os.Exit(code)
 }

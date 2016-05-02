@@ -21,11 +21,11 @@ package main
 
 import (
 	"encoding/json"
-	"encoding/xml"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"os"
+	"strings"
 
 	// Caltech library packages
 	"github.com/caltechlibrary/ot"
@@ -36,32 +36,61 @@ var (
 	showVersion bool
 )
 
-func processFile(fname string) {
-	src, err := ioutil.ReadFile(fname)
-	if err != nil {
-		fmt.Printf("Can't read %s, %s\n", fname, err)
-	}
-	data := new(ot.OrcidMessage)
-	err = xml.Unmarshal(src, &data)
-	if err != nil {
-		fmt.Printf("Can't parse %s, %s\n", fname, err)
-	}
-	jsonSource, err := json.Marshal(data)
-	if err != nil {
-		fmt.Printf("Can't convert to JSON %s, %s", fname, err)
-	}
+type Expr struct {
+	ORCID string `json:"orcid,omitempty"`
+	Path  string `json:"path,omitempty"`
+}
 
-	fmt.Printf("%s", jsonSource)
+func processExpression(api *ot.OrcidAPI, src []byte) {
+	var (
+		data *ot.OrcidMessage
+		err  error
+	)
+	expr := new(Expr)
+
+	err = json.Unmarshal(src, &expr)
+	if err != nil {
+		log.Fatalf("Do not know how to process %s", src)
+	}
+	switch {
+	case strings.HasPrefix(expr.Path, "/orcid-bio"):
+		data, err = api.GetBio(expr.ORCID)
+	case strings.HasPrefix(expr.Path, "/orcid-works"):
+		data, err = api.GetWorks(expr.ORCID)
+	case strings.HasPrefix(expr.Path, "/orcid-profile"):
+		data, err = api.GetProfile(expr.ORCID)
+	default:
+		data, err = api.Get(expr.Path, expr.ORCID)
+	}
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
+	src, _ = json.Marshal(data)
+	fmt.Printf("%s", src)
 }
 
 func main() {
 	appname := os.Args[0]
 	flag.Parse()
 	if showHelp == true {
-		fmt.Printf(`USAGE: %s [OPTIONS] XML_RESULTS_FILENAME
+		fmt.Printf(`USAGE: %s [OPTIONS] JSON_EXPRESSION
+
+orcid message connects to the orcid API and submits a request based on the
+JSON EXPRESSION provided. The JSON expression has two fields ORCID and path
+where path can be one of three end points.
+
+	/orcid-bio/
+	/orcid-works/
+	/orcid-profile/
+
+EXAMPLES
+
+	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-bio/"}'
+	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-works/"}'
+	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-profile/"}'
 
  OPTIONS
-`, appname)
+`, appname, appname, appname, appname)
 		flag.VisitAll(func(f *flag.Flag) {
 			fmt.Printf("\t-%s\t(defaults to %s) %s\n", f.Name, f.Value, f.Usage)
 		})
@@ -71,12 +100,17 @@ func main() {
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Println(" Version %s\n", Version)
+		fmt.Println(" Version %s\n", ot.Version)
 		os.Exit(0)
+	}
+	api := ot.New()
+	_, err := api.Login()
+	if err != nil {
+		log.Fatalf("%s", err)
 	}
 
 	args := flag.Args()
-	for _, fname := range args {
-		processFile(fname)
+	for _, expr := range args {
+		processExpression(api, []byte(expr))
 	}
 }
