@@ -87,18 +87,24 @@ func main() {
 		fmt.Printf(`USAGE: %s [OPTIONS] JSON_EXPRESSION|JS_FILENAME
 
 orcid message connects to the orcid API and submits a request based on the
-JSON EXPRESSION provided. The JSON expression has two fields ORCID and path
+JSON EXPRESSION provided or runs the JavaScript file provides.
+
+The JSON expression has two fields ORCID and path
 where path can be one of three end points.
 
 	/orcid-bio/
 	/orcid-works/
 	/orcid-profile/
 
+The expression or JavaScript file is run in the order listed in the command line.
+
 EXAMPLES
 
 	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-bio/"}'
 	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-works/"}'
 	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-profile/"}'
+
+	%s my-script.js
 
  OPTIONS
 `, appname, appname, appname, appname)
@@ -116,6 +122,9 @@ EXAMPLES
 	}
 
 	api := ot.New()
+	if api == nil {
+		log.Fatalf("Environment not setup. Try %s -h for usage", appname)
+	}
 	_, err := api.Login()
 	if err != nil {
 		log.Fatalf("%s", err)
