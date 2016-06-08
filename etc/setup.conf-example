@@ -9,7 +9,7 @@
 # See: https://members.orcid.org/api/accessing-public-api
 # See: http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier
 #
-export ORCID_API_URL=https://pub.sandbox.orcid.org
+export ORCID_API_URL="https://pub.sandbox.orcid.org"
 export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
 export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
 # You will need to manually set ORCID_ACCESS_TOKEN based on the response from

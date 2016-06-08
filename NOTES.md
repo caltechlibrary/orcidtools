@@ -8,3 +8,9 @@ Tarball is actually a gzipped tar file. Gunzip then process the tar file.
 
 How do I want to store the JSON blobs?  Bleve, Boltdb, SQL?
 
+## Might be helpful
+
++ Bibtex parsing tools
+    + [bibtex](https://github.com/nickng/bibtex), parse in Go
+    + [biblexer](https://github.com/meling/biblexer), lexer in Go
+
