@@ -4,15 +4,16 @@
 
   Orcid Tools
 
-Library for making command line tools that interact with the ORCID Public API
+A set of Bash scripts, Go language package and command line tools for working with the Public ORCID API.
 
 ## Configuration
 
-The commands available with the _ot_ package require three environment variables to be defined.
+Running the Bash scripts or command line tools built on the _ot_ package require specific environment variables to be defined.
 
 + ORCID_API_URL
 + ORCID_CLIENT_ID
 + ORCID_CLIENT_SECRET
+
 
 If you want to use the API URL https://pub.orcid.org then you'll seen to register your application
 to generate your client id and secret.  If you want to experiment with the orcid public api to
@@ -148,3 +149,4 @@ Should return a response like
 + [Tutorial on getting ORCID with CURL](http://members.orcid.org/api/tutorial-retrieve-orcid-id-curl-v12-and-earlier)
 + [Code Examples](http://members.orcid.org/api/code-examples)
 + [Working with GZip and Tar](http://blog.ralch.com/tutorial/golang-working-with-tar-and-gzip/) - golang example useful for parsing the tar ball of publicly released data
+

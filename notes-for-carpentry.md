@@ -38,3 +38,7 @@ curl -H "Content-Type: application/orcid+xml" -H "Authorization: 39a1d9c5-e753-4
 3. For each faculty member without a related DOI query the Orcid Public API by name, if only one record return remember the orcid and return any associated data
 4. For each EPrint with ORCID make sure we've have added the name to faculty list, to get full details query the Orcid Public API and save record
 
+## Getting a pubs list from ORICID number
+
+```
+```
