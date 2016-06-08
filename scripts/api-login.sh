@@ -5,6 +5,14 @@
 # environment vairable ORCID_ACCESS_TOKEN to use the other scripts in this directory.
 #
 
+function requireSoftware() {
+    APP=$(which $1)
+    if [ "$APP" = "" ]; then
+        echo "Missing $1, $2"
+        exit 1
+    fi
+}
+
 function requireEnvVar() {
     if [ "$2" = "" ]; then
         echo "Missing environment variable: $1"
@@ -12,6 +20,8 @@ function requireEnvVar() {
     fi
 }
 
+requireSoftware "curl" "usually installed with your operating system or OS's package manager"
+requireSoftware "jq" "See: https://stedolan.github.io/jq/"
 requireEnvVar "ORCID_API_URL" $ORCID_API_URL
 requireEnvVar "ORCID_CLIENT_ID" $ORCID_CLIENT_ID
 requireEnvVar "ORCID_CLIENT_SECRET" $ORCID_CLIENT_SECRET
