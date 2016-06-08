@@ -149,4 +149,5 @@ Should return a response like
 + [Tutorial on getting ORCID with CURL](http://members.orcid.org/api/tutorial-retrieve-orcid-id-curl-v12-and-earlier)
 + [Code Examples](http://members.orcid.org/api/code-examples)
 + [Working with GZip and Tar](http://blog.ralch.com/tutorial/golang-working-with-tar-and-gzip/) - golang example useful for parsing the tar ball of publicly released data
++ [Useful ORCID API end points](http://members.orcid.org/api/tutorial-searching-api-12-and-earlier)
 
