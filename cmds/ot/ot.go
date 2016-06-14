@@ -1,5 +1,5 @@
 //
-// orcidmessage.go translates an ORCID API XML response on the file system to JSON
+// ot.go translates an ORCID API XML response on the file system to JSON
 // on the filesystem. It was create to debug some of the response parsing for XML.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>

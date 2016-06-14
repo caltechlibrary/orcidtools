@@ -1,5 +1,5 @@
 //
-// orcidmessage.go translates an ORCID API XML response on the file system to JSON
+// otpdr.go translates an ORCID API XML response on the file system to JSON
 // on the filesystem. It was create to debug some of the response parsing for XML.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
@@ -68,6 +68,7 @@ func processTarBall(fname, dbname string) error {
 		fmt.Printf("%d next tar filename: %s\n", i, header.Name)
 		if strings.HasPrefix(header.Name, "./json/") {
 			info := header.FileInfo()
+			//FIXME: decode the actually content and save to storage format.
 			fmt.Printf("\t%+v\n", info)
 		}
 	}
