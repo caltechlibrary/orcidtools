@@ -87,7 +87,7 @@ func main() {
 	if showHelp == true {
 		fmt.Printf(`USAGE: %s [OPTIONS] TAR_FILENAME DB_FILENAME
 
-orcidpdr2db process an Orcid Public Data release file and turns it into an
+%s process an Orcid Public Data release file and turns it into an
 key/value database file suitable for further processing.
 
 EXAMPLE
@@ -95,7 +95,8 @@ EXAMPLE
 	%s ORCID_public_data_file_2015.tar pdr2015.boltDB
 
  OPTIONS
-`, appname, appname, appname, appname)
+
+`, appname, appname, appname)
 		flag.VisitAll(func(f *flag.Flag) {
 			fmt.Printf("\t-%s\t(defaults to %s) %s\n", f.Name, f.Value, f.Usage)
 		})
