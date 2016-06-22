@@ -106,7 +106,7 @@ EXAMPLE
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Println(" Version %s\n", ot.Version)
+		fmt.Printf(" Version %s\n", ot.Version)
 		os.Exit(0)
 	}
 
