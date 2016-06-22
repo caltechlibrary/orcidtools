@@ -41,6 +41,7 @@ var (
 	jsInteractive bool
 )
 
+// Expr represents a cli expression
 type Expr struct {
 	ORCID string `json:"orcid,omitempty"`
 	Path  string `json:"path,omitempty"`
