@@ -254,7 +254,7 @@ func (api *OrcidAPI) Login() (*LoginResponseMessage, error) {
 		return data, fmt.Errorf(`content can't be read %s, status code:%d, error message: %q`, u.String(), res.StatusCode, err)
 	}
 	if res.StatusCode != 200 {
-		return data, fmt.Errorf(`status code:%d, error message: %q`, u.String(), res.StatusCode, err)
+		return data, fmt.Errorf(`status code:%d, error message: %q`, res.StatusCode, err)
 	}
 	api.AccessToken = data.AccessToken
 	api.TokenType = data.TokenType
