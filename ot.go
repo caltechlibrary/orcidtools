@@ -70,6 +70,7 @@ type OrcidBio struct {
 	ContactDetails  *ContactDetails  `xml:"contact-details" json:"contact-details"`
 }
 
+// Name element (e.g. of given name, family name)
 type Name struct {
 	Value      string  `xml:"value,omitempty" json:"value,omitempty"`
 	Visibility *string `xml:"visibility,omitempty" json:"visibility,omitempty"`
@@ -130,7 +131,7 @@ type OrcidAPI struct {
 	URL          *url.URL
 	ClientID     string
 	ClientSecret string
-	ApiVersion   string
+	APIVersion   string
 	AccessToken  string
 	TokenType    string
 	RefreshToken string
@@ -215,7 +216,7 @@ func New() *OrcidAPI {
 	api.URL = u
 	api.ClientID = clientID
 	api.ClientSecret = clientSecret
-	api.ApiVersion = apiVersion
+	api.APIVersion = apiVersion
 	return api
 }
 
@@ -269,7 +270,7 @@ func (api *OrcidAPI) Login() (*LoginResponseMessage, error) {
 // Get returns a response body for a given ORCID message request
 func (api *OrcidAPI) Get(p, orcid string) (*OrcidMessage, error) {
 	u := api.URL
-	urlPath := path.Join(api.ApiVersion, orcid, p) + "/"
+	urlPath := path.Join(api.APIVersion, orcid, p) + "/"
 	u.Path = urlPath
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", u.String(), nil)
