@@ -41,6 +41,7 @@ var (
 	jsInteractive bool
 )
 
+// Expr cli expression
 type Expr struct {
 	ORCID string `json:"orcid,omitempty"`
 	Path  string `json:"path,omitempty"`
@@ -107,7 +108,7 @@ EXAMPLES
 	%s my-script.js
 
  OPTIONS
-`, appname, appname, appname, appname)
+`, appname, appname, appname, appname, appname)
 		flag.VisitAll(func(f *flag.Flag) {
 			fmt.Printf("\t-%s\t(defaults to %s) %s\n", f.Name, f.Value, f.Usage)
 		})
@@ -117,7 +118,7 @@ EXAMPLES
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Println(" Version %s\n", ot.Version)
+		fmt.Printf(" Version %s\n", ot.Version)
 		os.Exit(0)
 	}
 

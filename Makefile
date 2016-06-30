@@ -9,4 +9,9 @@ test:
 	go test
 
 clean:
-	if [ -d bin ]; then rm bin/*; fi
+	if [ -d bin ]; then rm -fR bin; fi
+	if [ -d dist ]; then rm -fR dist; fi
+
+release:
+	./mk-release.sh
+
