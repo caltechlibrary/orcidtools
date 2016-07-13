@@ -69,21 +69,21 @@ func TestORCIDMessage(t *testing.T) {
 		}
 	}
 
-	fname := path.Join("testdata", "orcid-profile-message.json")
+	fname := path.Join("testdata", "0000-0003-0900-6903", "orcid-profile-message.json")
 	src, err := ioutil.ReadFile(fname)
 	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
 
 	err = json.Unmarshal(src, &orcidMessage)
 	noError(err, "orcid-profile-message.json", false)
 
-	fname = path.Join("testdata", "orcid-bio-message.json")
+	fname = path.Join("testdata", "0000-0003-0900-6903", "orcid-bio-message.json")
 	src, err = ioutil.ReadFile(fname)
 	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
 
 	err = json.Unmarshal(src, &orcidMessage)
 	noError(err, "orcid-bio-message.json", false)
 
-	fname = path.Join("testdata", "orcid-works-message.json")
+	fname = path.Join("testdata", "0000-0003-0900-6903", "orcid-works-message.json")
 	src, err = ioutil.ReadFile(fname)
 	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
 

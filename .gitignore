@@ -35,3 +35,4 @@ dist/*
 *.gz
 *.tar
 *.zip
+*.bak
