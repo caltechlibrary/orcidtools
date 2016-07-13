@@ -25,10 +25,13 @@ _testmain.go
 
 # project specific excludes
 *~
+*.swp
 etc/*
 bin/*
+dist/*
 *.xlsx
 *.xml
 *.json
 *.gz
 *.tar
+*.zip

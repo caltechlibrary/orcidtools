@@ -70,7 +70,7 @@ type OrcidBio struct {
 	ContactDetails  *ContactDetails  `xml:"contact-details" json:"contact-details"`
 }
 
-// Name specifies a name element (e.g. family name, given name)
+// Name element (e.g. of given name, family name)
 type Name struct {
 	Value      string  `xml:"value,omitempty" json:"value,omitempty"`
 	Visibility *string `xml:"visibility,omitempty" json:"visibility,omitempty"`
