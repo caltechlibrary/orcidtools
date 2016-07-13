@@ -101,9 +101,9 @@ The expression or JavaScript file is run in the order listed in the command line
 
 EXAMPLES
 
-	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-bio/"}'
-	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-works/"}'
-	%s '{"orcid": "0000-0002-2389-8429", "path": "/orcid-profile/"}'
+	%s '{"orcid": "0000-0003-0900-6903", "path": "/orcid-bio/"}'
+	%s '{"orcid": "0000-0003-0900-6903", "path": "/orcid-works/"}'
+	%s '{"orcid": "0000-0003-0900-6903", "path": "/orcid-profile/"}'
 
 	%s my-script.js
 
