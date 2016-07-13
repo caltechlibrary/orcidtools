@@ -1,8 +1,12 @@
 package ot
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"testing"
 )
 
@@ -50,6 +54,41 @@ func TestGetAPI(t *testing.T) {
 	if err != nil {
 		t.Errorf("api.GetProfile(%q) error %s", orcid, err)
 	}
+}
+
+// Test that orcid message examples can be unmarshalled
+func TestORCIDMessage(t *testing.T) {
+	var orcidMessage *OrcidMessage
+
+	noError := func(err error, msg string, failNow bool) {
+		if err != nil {
+			t.Errorf("%s, %s", msg, err)
+			if failNow == true {
+				t.FailNow()
+			}
+		}
+	}
+
+	fname := path.Join("testdata", "orcid-profile-message.json")
+	src, err := ioutil.ReadFile(fname)
+	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
+
+	err = json.Unmarshal(src, &orcidMessage)
+	noError(err, "orcid-profile-message.json", false)
+
+	fname = path.Join("testdata", "orcid-bio-message.json")
+	src, err = ioutil.ReadFile(fname)
+	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
+
+	err = json.Unmarshal(src, &orcidMessage)
+	noError(err, "orcid-bio-message.json", false)
+
+	fname = path.Join("testdata", "orcid-works-message.json")
+	src, err = ioutil.ReadFile(fname)
+	noError(err, fmt.Sprintf("Expected to open %s", fname), true)
+
+	err = json.Unmarshal(src, &orcidMessage)
+	noError(err, "orcid-works-message.json", false)
 }
 
 func setup() {

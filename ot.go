@@ -39,8 +39,8 @@ const (
 // OrcidProfile specifies the field orcid-profile fields in an API response
 type OrcidProfile struct {
 	XMLName          xml.Name                `json:"-"`
-	ORCID            *string                 `xml:"orcid" json:"orcid"`
-	OrcidID          *string                 `xml:"orcid-id" json:"orcid-id"`
+	ORCID            string                  `xml:"orcid" json:"orcid"`
+	OrcidID          string                  `xml:"orcid-id" json:"orcid-id"`
 	OrcidIdentifier  *OrcidIdentifier        `xml:"orcid-identifier" json:"orcid-identifier"`
 	OrcidBio         *OrcidBio               `xml:"orcid-bio" json:"orcid-bio"`
 	OrcidDepreciated *interface{}            `xml:"orcid-deprecated" json:"orcid-deprecated"`
@@ -48,7 +48,7 @@ type OrcidProfile struct {
 	OrcidHistory     *map[string]interface{} `xml:"orcid-history" json:"orcid-history"`
 	OrcidActivities  *interface{}            `xml:"orcid-activities" json:"orcid-activities"`
 	OrcidInternal    *interface{}            `xml:"orcid-internal" json:"orcid-internal"`
-	Type             *string                 `xml:"type" json:"type"`
+	Type             string                  `xml:"type" json:"type"`
 	GroupType        *interface{}            `xml:"group-type" json:"group-type"`
 	ClientType       *interface{}            `xml:"client-type" json:"client-type"`
 }
@@ -66,29 +66,74 @@ type OrcidIdentifier struct {
 type OrcidBio struct {
 	XMLName         xml.Name         `json:"-"`
 	PersonalDetails *PersonalDetails `xml:"personal-details" json:"personal-details"`
-	Biography       *string          `xml:"biography,omitempty" json:"biography,omitempty"`
+	Biography       string           `xml:"biography,omitempty" json:"biography,omitempty"`
+	ResearcherURLs  *ResearcherURLs  `xml:"researcher-urls,omitempty" json:"researcher-urls,omitempty"`
 	ContactDetails  *ContactDetails  `xml:"contact-details" json:"contact-details"`
+	Keywords        *Keywords        `xml:"keywords,omitempty" json:"keywords,omitempty"`
 }
 
 // Name element (e.g. of given name, family name)
 type Name struct {
-	Value      string  `xml:"value,omitempty" json:"value,omitempty"`
-	Visibility *string `xml:"visibility,omitempty" json:"visibility,omitempty"`
+	Value      string `xml:"value,omitempty" json:"value,omitempty"`
+	Visibility string `xml:"visibility,omitempty" json:"visibility,omitempty"`
+}
+
+// OtherName element holds alternative names list
+type OtherName struct {
+	XMLName    xml.Name `json:"-"`
+	Names      []*Name  `xml:"other-name,omitempty" json:"other-name,omitempty"`
+	Visibility string   `xml:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // PersonalDetails specifies the field personal-details fields in an API response
 type PersonalDetails struct {
+	XMLName    xml.Name   `json:"-"`
+	GiveNames  *Name      `xml:"given-names,omitempty" json:"given-names,omitempty"`
+	FamilyName *Name      `xml:"family-name,omitempty" json:"family-name,omitempty"`
+	CreditName *Name      `xml:"credit-name,omitempty"`
+	OtherNames *OtherName `xml:"other-names,omitempty" json:"other-names,omitempty"`
+}
+
+// ResearcherURLs lists of the URLs related to a researcher
+type ResearcherURLs struct {
+	XMLName       xml.Name         `json:"-"`
+	ResearcherURL []*ResearcherURL `xml:"researcher-url,omitempty" json:"researcher-url,omitempty"`
+	Visibility    string           `xml:"visibility,omitempty" json:"visibility,omitempty"`
+}
+
+type DataElement struct {
+	XMLName        xml.Name `json:"-"`
+	Value          string   `xml:"value,omitempty" json:"value,omitempty"`
+	Primary        bool     `xml:"primary,omitempty" json:"primary,omitempty"`
+	Current        bool     `xml:"current,omitempty" json:"current,omitempty"`
+	Verified       bool     `xml:"verified,omitempty" json:"verified,omitempty"`
+	Source         string   `xml:"source,omitempty" json:"source,omitempty"`
+	SourceClientID string   `xml:"source-client-id,omitempty" json:"source-client-id,omitempty"`
+	Visibility     string   `xml:"visibility,omitempty" json:"visibility,omitempty"`
+}
+
+// ResearchURL is an array of URL related to a researcher
+type ResearcherURL struct {
 	XMLName    xml.Name `json:"-"`
-	GiveNames  *Name    `xml:"given-names,omitempty" json:"given-names,omitempty"`
-	FamilyName *Name    `xml:"family-name,omitempty" json:"family-name,omitempty"`
-	CreditName *Name    `xml:"credit-name,omitempty"`
-	OtherNames *[]Name  `xml:"other-names,omitempty" json:"other-names,omitempty"`
+	URLName    string   `xml:"url-name.value,omitempty" json:"url-name.value,omitempty"`
+	URLLink    string   `xml:"url.value,omitempty" json:"url.value,omitempty"`
+	Visibility string   `xml:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // ContactDetails specifies the field contact-details fields in an API response
 type ContactDetails struct {
-	XMLName xml.Name `json:"-"`
-	EMail   string   `xml:"email" json:"email"`
+	XMLName xml.Name                `json:"-"`
+	EMail   []*DataElement          `xml:"email" json:"email"`
+	Address map[string]*DataElement `xml:"address,omitempty", json:"address,omitempty"`
+}
+
+// Keywords is a list of keywords associated with an ORCID Bio
+type Keywords struct {
+	XMLName xml.Name       `json:"-"`
+	Keyword []*DataElement `xml:"keyword,omitempty" json:"keyword,omitempty"`
+	//ExternalIdentifiers []string       `xml:"external-identifiers,omitempty" json:"external-identifiers,omitempty"`
+	//Delegation *Delegate  `xml:"delegation,omitempty" json:"delegation,omitempty"`
+	//Scape *Scope `xml:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // OrcidSearchResult specifies the individual fields of a single orcid-search-result fields in an API response
@@ -107,11 +152,11 @@ type OrcidSearchResults struct {
 // OrcidMessage specifies the field orcid-message fields in an API response
 type OrcidMessage struct {
 	XMLName            xml.Name            `json:"-"`
-	MessageVersion     *string             `xml:"message-version" json:"message-version"`
+	MessageVersion     string              `xml:"message-version" json:"message-version"`
 	OrcidSearchResults *OrcidSearchResults `xml:"orcid-search-results" json:"orcid-search-results"`
 	OrcidProfile       *OrcidProfile       `xml:"orcid-profile" json:"orcid-profile"`
-	Error              *string             `xml:"error,omitempty" json:"error,omitempty"`
-	ErrorDesc          *string             `xml:"error-desc" json:"error-desc"`
+	Error              string              `xml:"error,omitempty" json:"error,omitempty"`
+	ErrorDesc          string              `xml:"error-desc" json:"error-desc"`
 }
 
 // LoginResponseMessage structure that can hold a success or failing login response body
