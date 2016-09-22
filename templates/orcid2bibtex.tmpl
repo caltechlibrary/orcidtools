@@ -1,0 +1,34 @@
+{{- range $k0, $v0 := .data -}}
+    {{- if eq $k0 "orcid-profile" -}}
+        {{- range $k1, $v1 := $v0 -}}
+            {{- if eq $k1 "orcid-activities" -}}
+                {{- range $k2, $v2 := $v1 -}}
+                    {{- if eq $k2 "orcid-works" -}}
+                        {{- range $k3,$v3 := $v2}}
+                            {{- if eq $k3 "orcid-work" -}}
+k0: {{$k0}} -> v0: ...
+k1: {{$k1}} -> v1: ...
+k2: {{$k2}} -> v2: ...
+k3: {{$k3}} -> v3: ...
+
+                                {{- range $i, $work := $v3 -}}
+i: {{$i}} -> work 
+{{range $k4, $v4 := $work}}
+    {{- if eq $k4 "put-code"}}
+Put-code: {{$v4}}
+    {{- else}}
+Key: {{$k4}}
+    {{- end}}
+{{end}}
+
+                                {{- end -}}
+                            {{- end -}}
+                        {{- end -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{else}}
+No data found
+{{end}}
