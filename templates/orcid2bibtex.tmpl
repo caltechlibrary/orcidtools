@@ -1,3 +1,14 @@
+{{define "bibEntry"}}
+{{$workType := (index . "work-type")}}
+{{$workTitle := (index . "work-title" "title" "value")}}
+{{$workID := (index . "put-code")}}
+{{printf "DEBUB bibEntry %s\n\n" (index . "work-type") }}
+
+@{{- $workType -}}{ {{- $workID}}
+    {{with $workTitle}}title = {{printf "%q" . }},{{end}}
+}
+{{end}}
+
 {{- range $k0, $v0 := .data -}}
     {{- if eq $k0 "orcid-profile" -}}
         {{- range $k1, $v1 := $v0 -}}
@@ -12,15 +23,7 @@ k2: {{$k2}} -> v2: ...
 k3: {{$k3}} -> v3: ...
 
                                 {{- range $i, $work := $v3 -}}
-i: {{$i}} -> work 
-{{range $k4, $v4 := $work}}
-    {{- if eq $k4 "put-code"}}
-Put-code: {{$v4}}
-    {{- else}}
-Key: {{$k4}}
-    {{- end}}
-{{end}}
-
+i: {{$i}} -> work {{- template "bibEntry" $work -}}
                                 {{- end -}}
                             {{- end -}}
                         {{- end -}}
