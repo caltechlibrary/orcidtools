@@ -1,4 +1,5 @@
 {{define "bibEntry"}}
+{{/* Pull out the remaining fields and map to BibTeX fields if values are not empty */}}
 {{$workType := (index . "work-type")}}
 {{$workTitle := (index . "work-title" "title" "value")}}
 {{$workID := (index . "put-code")}}
@@ -7,7 +8,7 @@
 {{if eq $workType "JOURNAL_ARTICLE"}}
 @Article{
 {{else}}
-@other{
+@misc{
 {{end}}
 {{- $workID}}
     {{with $workTitle}}title = {{printf "%q" . }},{{end}}
