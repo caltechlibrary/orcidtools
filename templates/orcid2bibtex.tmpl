@@ -4,34 +4,23 @@
 {{$workID := (index . "put-code")}}
 {{printf "DEBUB bibEntry %s\n\n" (index . "work-type") }}
 
-@{{- $workType -}}{ {{- $workID}}
+{{if eq $workType "JOURNAL_ARTICLE"}}
+@Article{
+{{else}}
+@other{
+{{end}}
+{{- $workID}}
     {{with $workTitle}}title = {{printf "%q" . }},{{end}}
 }
 {{end}}
 
-{{- range $k0, $v0 := .data -}}
-    {{- if eq $k0 "orcid-profile" -}}
-        {{- range $k1, $v1 := $v0 -}}
-            {{- if eq $k1 "orcid-activities" -}}
-                {{- range $k2, $v2 := $v1 -}}
-                    {{- if eq $k2 "orcid-works" -}}
-                        {{- range $k3,$v3 := $v2}}
-                            {{- if eq $k3 "orcid-work" -}}
-k0: {{$k0}} -> v0: ...
-k1: {{$k1}} -> v1: ...
-k2: {{$k2}} -> v2: ...
-k3: {{$k3}} -> v3: ...
-
-                                {{- range $i, $work := $v3 -}}
-i: {{$i}} -> work {{- template "bibEntry" $work -}}
-                                {{- end -}}
-                            {{- end -}}
-                        {{- end -}}
-                    {{- end -}}
-                {{- end -}}
-            {{- end -}}
-        {{- end -}}
-    {{- end -}}
+{{with .data -}}{{/* 
+    1. Reach into the ORCID Profile JSON structure and pull out the works array
+    2. For each item in works array format the entry as BibTeX using the bibEntry template
+*/}}
+{{- range $work := (index . "orcid-profile" "orcid-activities" "orcid-works" "orcid-work") -}}
+{{template "bibEntry" $work}}
+{{- end -}}
 {{else}}
 No data found
 {{end}}

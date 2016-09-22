@@ -37,6 +37,7 @@ if [ "$ORCID_ACCESS_TOKEN" != "" ]; then
    echo 
    echo "export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN"
    echo 
+   export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN
 else
     echo "Login failed $?"
 fi
