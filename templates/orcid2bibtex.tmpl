@@ -1,20 +1,33 @@
 {{- define "bibEntry" -}}
 {{/* Pull out the remaining fields and map to BibTeX fields if values are not empty */}}
+{{- $entryID := (index . "put-code") -}}
+{{- $Journal := (index . "journal-title") -}}
 {{- $entryType := (index . "work-type") -}}
 {{- $workTitle := (index . "work-title" "title") -}}
 {{- $workSubtitle := (index . "work-title" "subtitle") -}}
-{{- $entryID := (index . "put-code") -}}
-{{- $Journal := (index . "journal-title") -}}
+{{- $shortDescription := (index . "short-description") -}}
+{{- $pubYear := (index . "publication-date" "year") -}}
+{{- $pubMonth := (index . "publication-date" "month") -}}
+{{- $pubDay := (index . "publication-date" "day") -}}
 
-
-{{- if eq $entryType "JOURNAL_ARTICLE"}}
+{{- if eq $entryType "JOURNAL_ARTICLE" }}
 @Article{ {{- with $entryID -}}{{- . -}},{{- end}}
-{{- else}}
-@misc{ {{- with $entryID -}}{{- . -}},{{- end}}
-{{- end}}
-    {{with $Journal}}journal = {{printf "%q" .value}},{{end}}
-    {{with $workTitle}}title = {{printf "%q" .value }},{{end}}
-    {{with $workSubtitle}}subtitle = {{printf "%q" .value }},{{end}}
+{{- else if eq $entryType "MAGAZINE_ARTICLE" }}
+@Article{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- else if eq $entryType "REPORT" }}
+@TechReport{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- else if eq $entryType "BOOK" }}
+@Book{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- else if eq $entryType "CONFERENCE_PAPER" }}
+@Inproceedings{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- else if eq $entryType "DATA" }}
+@Data{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- else }}
+@Misc{ {{- with $entryID -}}{{- . -}},{{- end}}
+{{- end }}
+{{with $Journal}}    journal = {{- printf "%q" .value -}},{{end}}
+{{with $workTitle}}    title = {{- printf "%q" .value -}},{{end}}
+{{with $workSubtitle}}    subtitle = {{- printf "%q" .value -}},{{end}}
 }
 {{end}}
 
@@ -22,9 +35,7 @@
     1. Reach into the ORCID Profile JSON structure and pull out the works array
     2. For each item in works array format the entry as BibTeX using the bibEntry template
 */}}
-{{- range $work := (index . "orcid-profile" "orcid-activities" "orcid-works" "orcid-work") -}}
+{{range $work := (index . "orcid-profile" "orcid-activities" "orcid-works" "orcid-work") -}}
 {{template "bibEntry" $work}}
 {{- end -}}
-{{- else -}}
-No data found
 {{- end -}}
