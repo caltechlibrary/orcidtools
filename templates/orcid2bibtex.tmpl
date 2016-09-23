@@ -1,14 +1,20 @@
 {{- define "bibEntry" -}}
 {{/* Pull out the remaining fields and map to BibTeX fields if values are not empty */}}
-{{- $workType := (index . "work-type") -}}
-{{- $workTitle := (index . "work-title" "title" "value") -}}
-{{- $workID := (index . "put-code") -}}
-{{- if eq $workType "JOURNAL_ARTICLE"}}
-@Article{ {{- with $workID -}}{{- . -}},{{- end}}
+{{- $entryType := (index . "work-type") -}}
+{{- $workTitle := (index . "work-title" "title") -}}
+{{- $workSubtitle := (index . "work-title" "subtitle") -}}
+{{- $entryID := (index . "put-code") -}}
+{{- $Journal := (index . "journal-title") -}}
+
+
+{{- if eq $entryType "JOURNAL_ARTICLE"}}
+@Article{ {{- with $entryID -}}{{- . -}},{{- end}}
 {{- else}}
-@misc{ {{- with $workID -}}{{- . -}},{{- end}}
+@misc{ {{- with $entryID -}}{{- . -}},{{- end}}
 {{- end}}
-    {{with $workTitle}}title = {{printf "%q" . }},{{end}}
+    {{with $Journal}}journal = {{printf "%q" .value}},{{end}}
+    {{with $workTitle}}title = {{printf "%q" .value }},{{end}}
+    {{with $workSubtitle}}subtitle = {{printf "%q" .value }},{{end}}
 }
 {{end}}
 
