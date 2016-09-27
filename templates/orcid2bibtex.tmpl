@@ -47,7 +47,7 @@
 {{- with $workSubtitle}}
     subtitle = {{- printf "%q" .value -}},{{end}}
 {{- with $contributors}}
-    author = {{- template "authList" .contributors -}},{{end}}
+    author = {{- template "authList" .contributor -}},{{end}}
 {{- with $pubDate -}}
 {{- with (index $pubDate "year")}}
     year = {{- printf "%q" .value -}},{{end}}
@@ -69,6 +69,17 @@
     2. For each item in works array format the entry as BibTeX using the bibEntry template
 */}}
 {{range $work := (index . "orcid-profile" "orcid-activities" "orcid-works" "orcid-work") -}}
+{{/* If BibTeX citation exists use it otherwise building as best we can */}}
+{{- if (index $work "work-citation")}}
+{{- if (eq (index $work "work-citation" "work-citation-type") "BIBTEX")}}
+{{with (index $work "work-citation" "citation")}}
+{{.}}
+{{end}}
+{{- else}}
 {{template "bibEntry" $work}}
+{{end -}}
+{{- else -}}
+{{template "bibEntry" $work}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
