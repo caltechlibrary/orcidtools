@@ -21,11 +21,9 @@
 {{- $workTitle := (index . "work-title" "title") -}}
 {{- $workSubtitle := (index . "work-title" "subtitle") -}}
 {{- $shortDescription := (index . "short-description") -}}
-{{- $pubYear := (index . "publication-date" "year") -}}
-{{- $pubMonth := (index . "publication-date" "month") -}}
-{{- $pubDay := (index . "publication-date" "day") -}}
+{{- $pubDate := (index . "publication-date") -}}
 {{- $contributors := (index . "work-contributors") -}}
-{{- $workExternalIdentifiers := (index . "work-external-identifiers" "work-external-identifier") -}}
+{{- $workExternalIdentifiers := (index . "work-external-identifiers") -}}
 
 {{- if eq $entryType "JOURNAL_ARTICLE" }}
 @Article{ {{- with $entryID -}}{{- . -}},{{end}}
@@ -49,16 +47,20 @@
 {{- with $workSubtitle}}
     subtitle = {{- printf "%q" .value -}},{{end}}
 {{- with $contributors}}
-    author = {{- template "authList" .contributor -}},{{end}}
-{{- with $pubYear}}
+    author = {{- template "authList" .contributors -}},{{end}}
+{{- with $pubDate -}}
+{{- with (index $pubDate "year")}}
     year = {{- printf "%q" .value -}},{{end}}
-{{- with $pubMonth}}
+{{- with (index $pubDate "month")}}
     month = {{- printf "%q" .value -}},{{end}}
-{{- with $pubDay}}
+{{- with (index $pubDate "day")}}
     day = {{- printf "%q" .value -}},{{end}}
+{{- end}}
 {{/* External identifier template is responsible for hte whole tag and value of its entries, e.g. DOI, ISBN */}}
-{{- range $workExternalIdentifiers -}}
-{{template "externalIdentifiers" . -}}{{end}}
+{{- with $workExternalIdentifiers -}}
+{{- range $externalIdentifiers := (index . "work-external-identifier") -}}
+{{template "externalIdentifiers" $externalIdentifiers -}}{{end}}
+{{- end -}}
 }
 {{end}}
 
