@@ -1,10 +1,12 @@
 {{- define "authList" -}}
 {{/* Assemble a list of authors from "work-contributors" "contributor" array */}}
-{{- print " \"" -}}
+{{- print "\n    author = \"" -}}
 {{- range $i, $author := . -}}
-{{- if gt $i 0 }} and {{ end -}}{{- (index $author "credit-name" "value") -}}
+    {{- if (index $author "credit-name") -}}
+        {{- if $i}} and {{ end -}}{{- (index $author "credit-name" "value") -}}
+    {{- end -}}
 {{- end -}}
-{{- print "\"" -}}
+{{- print "\""}}
 {{- end -}}
 
 {{- define "externalIdentifiers" -}}
@@ -46,8 +48,8 @@
     title = {{- printf "%q" .value -}},{{end}}
 {{- with $workSubtitle}}
     subtitle = {{- printf "%q" .value -}},{{end}}
-{{- with $contributors}}
-    author = {{- template "authList" .contributor -}},{{end}}
+{{- with $contributors -}}
+    {{- template "authList" .contributor -}},{{end}}
 {{- with $pubDate -}}
 {{- with (index $pubDate "year")}}
     year = {{- printf "%q" .value -}},{{end}}
@@ -72,9 +74,9 @@
 {{/* If BibTeX citation exists use it otherwise building as best we can */}}
 {{- if (index $work "work-citation")}}
 {{- if (eq (index $work "work-citation" "work-citation-type") "BIBTEX")}}
-{{with (index $work "work-citation" "citation")}}
+{{- with (index $work "work-citation" "citation")}}
 {{.}}
-{{end}}
+{{end -}}
 {{- else}}
 {{template "bibEntry" $work}}
 {{end -}}
