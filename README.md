@@ -12,6 +12,7 @@ Running the Bash scripts or command line tools built on the _ot_ package require
 + ORCID_API_URL
 + ORCID_CLIENT_ID
 + ORCID_CLIENT_SECRET
++ ORCID_ACCESS_TOKEN (known on successful login to the API)
 
 
 If you want to use the API URL https://pub.orcid.org then you'll need to register an application
