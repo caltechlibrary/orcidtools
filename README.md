@@ -1,4 +1,3 @@
-[![Go Report Card](http://goreportcard.com/badge/caltechlibrary/ot)](http://goreportcard.com/report/caltechlibrary/ot)
 
 # ot
 
