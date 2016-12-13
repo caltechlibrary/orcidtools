@@ -20,13 +20,13 @@ if [ ! -f nav.md ]; then
 
     cat <<EOF> nav.md
 + [Home](/)
-+ [README](/index.html)
-+ [Install](/install.html)
-+ [LICENSE](/license.html)
++ [README](index.html)
++ [Install](install.html)
++ [LICENSE](license.html)
 + [Github](https://github.com/caltechlibrary/$PROJECT)
 EOF
     if [ -f NOTES.md ]; then 
-        echo "+ [Notes](/notes.html)" >> nav.md
+        echo "+ [Notes](notes.html)" >> nav.md
     fi
 fi
 
