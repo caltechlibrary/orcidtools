@@ -3,7 +3,7 @@
 
   Orcid Tools
 
-A set of Bash scripts, a command line tools called "orcid" and  Go template for working with the Public ORCID API.
+A command line tool called _orcid_, a set of Bash scripts and Go template for working with the Public ORCID API.
 
 ## Configuration
 
@@ -35,6 +35,22 @@ Below is an example of setup script that would be sourced to access the sandbox
     export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1""
 ```
 
+## the ORCID tool
+
+The command line tool works simularly to the bash scripts. You source a configuration then run the tool. Unlike
+the shell scripts login is automatic so you can focus on the command you need. The command line tool expacts 
+an ORCID id as a command line parameter so it can get back a specific record.
+
+```shell
+    . etc/sandbox.sh
+    orcid -works 0000-0003-0900-6903
+```
+
+Would list the works for the ORCID id of "0000-0003-0900-6903". The resulting document would be in JSON form.
+
+
+## Working with the scripts
+
 Assuming you saved this script as "etc/sandbox.sh" you would source it with the command
 
 ```shell
@@ -60,19 +76,6 @@ Putting it together
     # Then you can get the "works" for 0000-0003-0900-6903 with
     ./scripts/api-get-works.sh 0000-0003-0900-6903
 ```
-
-## the ORCID tool
-
-The command line tool works simularly to the bash scripts. You source a configuration then run the tool. Unlike
-the shell scripts login is automatic so you can focus on the command you need. The command line tool expacts 
-an ORCID id as a command line parameter so it can get back a specific record.
-
-```shell
-    . etc/sandbox.sh
-    orcid -works 0000-0003-0900-6903
-```
-
-Would list the works for the ORCID id of "0000-0003-0900-6903". The resulting document would be in JSON form.
 
 
 ## Reference
