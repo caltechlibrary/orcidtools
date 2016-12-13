@@ -31,3 +31,9 @@ clean:
 
 release:
 	./mk-release.bash
+
+website:
+	./mk-website.bash
+
+publish: website
+	./publish.bash

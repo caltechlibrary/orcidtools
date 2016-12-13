@@ -3,11 +3,12 @@
 
   Orcid Tools
 
-A set of Bash scripts, Go template for working with the Public ORCID API.
+A set of Bash scripts, a command line tools called "orcid" and  Go template for working with the Public ORCID API.
 
 ## Configuration
 
-Running the Bash scripts or command line tools built on the _ot_ package require specific environment variables to be defined.
+The _orcid_ tool and Bash scripts share a common configuration. These are set via environment variables.
+The following are supported, the first three required.
 
 + ORCID_API_URL
 + ORCID_CLIENT_ID
@@ -59,6 +60,20 @@ Putting it together
     # Then you can get the "works" for 0000-0003-0900-6903 with
     ./scripts/api-get-works.sh 0000-0003-0900-6903
 ```
+
+## the ORCID tool
+
+The command line tool works simularly to the bash scripts. You source a configuration then run the tool. Unlike
+the shell scripts login is automatic so you can focus on the command you need. The command line tool expacts 
+an ORCID id as a command line parameter so it can get back a specific record.
+
+```shell
+    . etc/sandbox.sh
+    orcid -works 0000-0003-0900-6903
+```
+
+Would list the works for the ORCID id of "0000-0003-0900-6903". The resulting document would be in JSON form.
+
 
 ## Reference
 

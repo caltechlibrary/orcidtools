@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ot</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu" title="link to Caltech Library Homepage"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/index.html">README</a></li>
+<li><a href="/install.html">Install</a></li>
+<li><a href="/license.html">LICENSE</a></li>
+<li><a href="https://github.com/caltechlibrary/ot">Github</a></li>
+<li><a href="/notes.html">Notes</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>ot</h1>
+
+<p>Orcid Tools</p>
+
+<p>A set of Bash scripts, Go template for working with the Public ORCID API.</p>
+
+<h2>Configuration</h2>
+
+<p>Running the Bash scripts or command line tools built on the <em>ot</em> package require specific environment variables to be defined.</p>
+
+<ul>
+<li>ORCID_API_URL</li>
+<li>ORCID_CLIENT_ID</li>
+<li>ORCID_CLIENT_SECRET</li>
+<li>ORCID_ACCESS_TOKEN (known on successful login to the API)</li>
+</ul>
+
+<p>If you want to use the API URL <a href="https://pub.orcid.org">https://pub.orcid.org</a> then you&rsquo;ll need to register an application
+to generate your client id and secret.  If you want to experiment with the orcid public api to
+test code (e.g. say test this package) you can use the example client id and secret describe on the
+orcid.org <a href="http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier">website</a>
+along with the API URL <a href="https://pub.sandbox.orcid.org">https://pub.sandbox.orcid.org</a>.</p>
+
+<p>The bash scripts provided in the repository rely on a few environment variables.
+You can define those variables in a Bash script, sourcing that script will then
+expose those variables in your current Bash session.</p>
+
+<p>Below is an example of setup script that would be sourced to access the sandbox</p>
+
+<pre><code class="language-shell">    #!/bin/bash
+    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.rg&quot;
+    export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
+    export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;&quot;
+</code></pre>
+
+<p>Assuming you saved this script as &ldquo;etc/sandbox.sh&rdquo; you would source it with the command</p>
+
+<pre><code class="language-shell">    . etc/sandbox.sh
+</code></pre>
+
+<p>You could then login to the API with</p>
+
+<pre><code class="language-shell">    ./scripts/api-login.sh
+</code></pre>
+
+<p>This will provide you with an Access token (you would cut and paste from the console to set that
+into the environment). Once <em>ORCID_ACCESS_TOKEN</em> is defined in your environment you then can use
+the other scripts to query the ORCID API for profile, bio and works data.</p>
+
+<p>Putting it together</p>
+
+<pre><code class="language-shell">    . etc/sandbox.sh
+    ./scripts/api-login.sh
+    # Cut and past the 'export ORCID_ACCESS_TOKEN' line into the console
+    # Then you can get the &quot;works&quot; for 0000-0003-0900-6903 with
+    ./scripts/api-get-works.sh 0000-0003-0900-6903
+</code></pre>
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="http://orcid.org">orcid.org</a></li>
+<li><a href="http://members.orcid.org/api/introduction-orcid-public-api">ORCID Public API Documentation</a></li>
+<li><a href="http://members.orcid.org/api/tutorial-retrieve-orcid-id-curl-v12-and-earlier">Tutorial on getting ORCID with CURL</a></li>
+<li><a href="http://members.orcid.org/api/code-examples">Code Examples</a></li>
+<li><a href="http://members.orcid.org/api/tutorial-searching-api-12-and-earlier">Useful ORCID API end points</a></li>
+</ul>
+
+</section>
+
+<footer>
+<span>&copy; 2016 <a href="http://library.caltech.edu/CLS_Copyright.htm">Caltech Library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+</footer>
+</body>
+</html>
