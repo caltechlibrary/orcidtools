@@ -25,9 +25,6 @@ if [ ! -f nav.md ]; then
 + [LICENSE](license.html)
 + [Github](https://github.com/caltechlibrary/$PROJECT)
 EOF
-    if [ -f NOTES.md ]; then 
-        echo "+ [Notes](notes.html)" >> nav.md
-    fi
 fi
 
 
@@ -46,15 +43,5 @@ if [ -f LICENSE ]; then
     makePage "$PROJECT" "markdown:$(cat LICENSE)" nav.md license.html
 fi
 
-# notes.html
-if [ -f NOTES.md ]; then
-    makePage "$PROJECT" NOTES.md nav.md notes.html
-fi
-
-# todo.html
-if [ -f TODO.md ]; then
-    makePage "$PROJECT" TODO.md nav.md todo.html
-fi
-
 # Add the files to git as needed
-git add index.html install.html license.html notes.html todo.html
+git add index.html install.html license.html 
