@@ -46,7 +46,7 @@ import (
 
 const (
 	// Version of ot package
-	Version = "v0.0.01"
+	Version = "v0.0.1"
 
 	// License string suitable to populate via cli
 	LicenseText = `

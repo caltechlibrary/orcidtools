@@ -81,9 +81,12 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showVersion bool
 
 	// Application Options
-	showProfile bool
-	showWorks   bool
-	showBio     bool
+	showProfile      bool
+	showWorks        bool
+	showBio          bool
+	showActivities   bool
+	showAffiliations bool
+	showFunding      bool
 
 	// Required
 	apiURL       string
@@ -102,12 +105,12 @@ func init() {
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
 	// Application Options
-	flag.BoolVar(&showProfile, "p", false, "display profile")
 	flag.BoolVar(&showProfile, "profile", false, "display profile")
-	flag.BoolVar(&showWorks, "w", false, "display works")
 	flag.BoolVar(&showWorks, "works", false, "display works")
-	flag.BoolVar(&showBio, "b", false, "display biography")
 	flag.BoolVar(&showBio, "bio", false, "display biography")
+	flag.BoolVar(&showActivities, "activities", false, "display activity")
+	flag.BoolVar(&showAffiliations, "affiliations", false, "display affiliations")
+	flag.BoolVar(&showFunding, "funding", false, "display funding")
 
 	flag.StringVar(&orcidID, "o", "", "use orcid id")
 	flag.StringVar(&orcidID, "orcid", "", "use orcid id")
@@ -157,6 +160,15 @@ func main() {
 	}
 	if showBio == true {
 		requestType = "orcid-bio"
+	}
+	if showActivities == true {
+		requestType = "acitivities"
+	}
+	if showAffiliations == true {
+		requestType = "affiliations"
+	}
+	if showFunding == true {
+		requestType = "funding"
 	}
 	if requestType == "" {
 		fmt.Fprintf(os.Stderr, "Not sure what to do, see %s -help", appName)

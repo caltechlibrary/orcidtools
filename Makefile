@@ -14,7 +14,7 @@ lint:
 	golint cmds/orcid/orcid.go
 
 install:
-	env CGO_ENABLED=0 GOBIN=$(HOME)/bin go install cmds/orcid/orcid.go
+	go install cmds/orcid/orcid.go
 
 save:
 	git commit -am "Quick Save"
@@ -24,3 +24,10 @@ orcid: ot.go cmds/orcid/orcid.go
 	env CGO_ENABLED=0 go build -o bin/orcid cmds/orcid/orcid.go
 
 
+clean:
+	if [ -d bin ]; then /bin/rm -fR bin; fi
+	if [ -d dist ]; then /bin/rm -fR dist; fi
+	if [ -f $(PROJECT)-release.zip ]; then /bin/rm $(PROJECT)-release.zip; fi
+
+release:
+	./mk-release.bash
