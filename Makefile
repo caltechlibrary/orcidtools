@@ -14,7 +14,8 @@ lint:
 	golint cmds/orcid/orcid.go
 
 install:
-	go install cmds/orcid/orcid.go
+	env GOBIN=$(HOME)/bin go install cmds/orcid/orcid.go
+
 
 save:
 	git commit -am "Quick Save"

@@ -43,5 +43,9 @@ if [ -f LICENSE ]; then
     makePage "$PROJECT" "markdown:$(cat LICENSE)" nav.md license.html
 fi
 
+if [ -f ot-recipes.md ]; then
+    makePage "$PROJECT" ot-recipes.md nav.md ot-recipes.html
+fi
+
 # Add the files to git as needed
-git add index.html install.html license.html 
+git add index.html install.html license.html ot-recipes.html 
