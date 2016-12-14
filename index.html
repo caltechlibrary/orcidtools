@@ -69,6 +69,14 @@ an ORCID id as a command line parameter so it can get back a specific record.</p
 
 <p>Would list the works for the ORCID id of &ldquo;0000-0003-0900-6903&rdquo;. The resulting document would be in JSON form.</p>
 
+<p>Taking things a step further you can generate a BibTeX from the works in your ORCID using the <em>orcid</em> tool and
+<a href="https://caltechlibrary.github.io/mkpage">mkpage</a> tool together with the templates included in this repository.</p>
+
+<pre><code class="language-shell">    . etc/sandbox.sh
+    orcid -works 0000-0003-0900-6903 &gt; 0000-0003-0900-6903-works.json
+    mkpage &quot;data=0000-0003-0900-6903-works.json&quot; templates/orcid2bibtex.tmpl &gt; 0000-0003-0900-6903.bib
+</code></pre>
+
 <h2>Working with the scripts</h2>
 
 <p>Assuming you saved this script as &ldquo;etc/sandbox.sh&rdquo; you would source it with the command</p>
