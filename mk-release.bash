@@ -3,7 +3,9 @@
 # Make releases for Linux/amd64, Linux/ARM6 and Linux/ARM7 (Raspberry Pi), Windows, and Mac OX X (darwin)
 #
 
-RELEASE_NAME=ot
+VERSION=$(grep 'Version = ' ot.go | cut -d\" -f 2)
+RELEASE_NAME=ot-$VERSION
+echo "Preparing $RELEASE_NAME-release.zip"
 for PROGNAME in orcid ; do
   echo "Cross compiling $PROGNAME"
   env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/$PROGNAME cmds/$PROGNAME/$PROGNAME.go

@@ -34,7 +34,6 @@
 package ot
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -69,5 +68,7 @@ func TestAPI(t *testing.T) {
 		t.Errorf("request profile failed, %s", err)
 		t.FailNow()
 	}
-	fmt.Printf("DEBUG Data %s\n", data)
+	t.Fail() // FIXME: Need to finish writing the test
+	t.Logf("%s\n", data)
+	//fmt.Printf("DEBUG Data %s\n", data)
 }

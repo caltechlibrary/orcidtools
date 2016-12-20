@@ -1,7 +1,9 @@
 #
 # ORCID tools Makefile
 #
+
 PROJECT = ot
+VERSION = $(shell grep 'Version = ' ot.go | cut -d \" -f 2)
 PROG_LIST = orcid
 
 build: $(PROG_LIST)
@@ -28,7 +30,7 @@ orcid: ot.go cmds/orcid/orcid.go
 clean:
 	if [ -d bin ]; then /bin/rm -fR bin; fi
 	if [ -d dist ]; then /bin/rm -fR dist; fi
-	if [ -f $(PROJECT)-release.zip ]; then /bin/rm $(PROJECT)-release.zip; fi
+	if [ -f $(PROJECT)-$(VERSION)-release.zip ]; then /bin/rm $(PROJECT)-$(VERSION)-release.zip; fi
 
 release:
 	./mk-release.bash
