@@ -4,6 +4,7 @@
 
 PROJECT = ot
 VERSION = $(shell grep 'Version = ' ot.go | cut -d \" -f 2)
+BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 PROG_LIST = orcid
 
 build: $(PROG_LIST)
@@ -21,7 +22,7 @@ install:
 
 save:
 	git commit -am "Quick Save"
-	git push origin master
+	git push origin $(BRANCH)
 
 orcid: ot.go cmds/orcid/orcid.go
 	env CGO_ENABLED=0 go build -o bin/orcid cmds/orcid/orcid.go
