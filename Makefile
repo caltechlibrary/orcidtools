@@ -1,10 +1,12 @@
 #
 # ORCID tools Makefile
 #
-
 PROJECT = ot
-VERSION = $(shell grep 'Version = ' ot.go | cut -d \" -f 2)
+
+VERSION = $(shell grep 'Version = ' $(PROJECT).go | cut -d \" -f 2)
+
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
+
 PROG_LIST = orcid
 
 build: $(PROG_LIST)

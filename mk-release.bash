@@ -2,8 +2,8 @@
 #
 # Make releases for Linux/amd64, Linux/ARM6 and Linux/ARM7 (Raspberry Pi), Windows, and Mac OX X (darwin)
 #
-
-VERSION=$(grep 'Version = ' ot.go | cut -d\" -f 2)
+PROJECT=ot
+VERSION=$(grep 'Version = ' $PROJECT.go | cut -d\" -f 2)
 RELEASE_NAME=ot-$VERSION
 echo "Preparing $RELEASE_NAME-release.zip"
 for PROGNAME in orcid ; do
