@@ -46,19 +46,14 @@ publish: website
 
 release: dist/linux-amd64 dist/windows-amd64 dist/macosx-amd64 dist/raspbian-arm7
 	mkdir -p dist
-	mkdir -p dist/htdocs/css
-	mkdir -p dist/htdocs/js
 	mkdir -p dist/etc/
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
 	cp -vR scripts dist/
 	cp -vR templates dist/
-	cp -v htdocs/index.md dist/htdocs/
-	cp -v htdocs/css/* dist/htdocs/css/
-	cp -v htdocs/js/* dist/htdocs/js/
 	cp -v etc/*-example dist/etc/
-	zip -r $(PROJECT)-$(VERSION)-release.zip
+	zip -r $(PROJECT)-$(VERSION)-release.zip dist/*
 
 dist/linux-amd64:
 	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/orcid cmds/orcid/orcid.go
