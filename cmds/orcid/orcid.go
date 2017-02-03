@@ -124,7 +124,6 @@ func main() {
 	cfg := cli.New(appName, "ORCID", fmt.Sprintf(ot.LicenseText, appName, ot.Version), ot.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionsText = "OPTIONS\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	// Process flags and update the environment as needed.

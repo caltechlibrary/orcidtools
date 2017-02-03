@@ -14,19 +14,8 @@ function makePage () {
         "content=$page" \
         "nav=$nav" \
         page.tmpl > $html_page
+    git add $html_page
 }
-
-if [ ! -f nav.md ]; then
-
-    cat <<EOF> nav.md
-+ [Home](/)
-+ [README](index.html)
-+ [Install](install.html)
-+ [LICENSE](license.html)
-+ [Github](https://github.com/caltechlibrary/$PROJECT)
-EOF
-fi
-
 
 # index.html
 if [ -f README.md ]; then
@@ -49,3 +38,8 @@ fi
 
 # Add the files to git as needed
 git add index.html install.html license.html ot-recipes.html 
+
+# Add command docs
+for FNAME in orcid; do
+    makePage "$PROJECT" $FNAME.md nav.md $FNAME.html
+done

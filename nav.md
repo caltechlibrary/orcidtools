@@ -1,5 +1,6 @@
 + [Home](/)
 + [README](index.html)
-+ [Install](install.html)
++ [INSTALL](install.html)
 + [LICENSE](license.html)
++ [orcid](orcid.html)
 + [Github](https://github.com/caltechlibrary/ot)
