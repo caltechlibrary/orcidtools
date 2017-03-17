@@ -21,7 +21,7 @@ function requireEnvVar() {
 }
 
 requireSoftware "curl" "usually installed with your operating system or OS's package manager"
-requireSoftware "jsoncols" "See: https://caltechlibrary.github.io/datatools/"
+requireSoftware "jsonrange" "See: https://caltechlibrary.github.io/datatools/"
 requireEnvVar "ORCID_API_URL" $ORCID_API_URL
 requireEnvVar "ORCID_CLIENT_ID" $ORCID_CLIENT_ID
 requireEnvVar "ORCID_CLIENT_SECRET" $ORCID_CLIENT_SECRET
@@ -33,6 +33,7 @@ export ORCID_ACCESS_TOKEN=$(curl -L -H "Accept: application/json" \
     -d "grant_type=client_credentials" \
     "$ORCID_API_URL/oauth/token" | jsoncols .access_token)
 echo 
+
 if [ "$ORCID_ACCESS_TOKEN" != "" ]; then
    echo 
    echo "export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN"
