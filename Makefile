@@ -26,7 +26,7 @@ status:
 	git status
 
 save:
-	git commit -am "Quick Save"
+	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
 orcid: ot.go cmds/orcid/orcid.go

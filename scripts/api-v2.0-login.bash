@@ -6,39 +6,39 @@
 #
 
 function requireSoftware() {
-    APP=$(which $1)
-    if [ "$APP" = "" ]; then
-        echo "Missing $1, $2"
-        exit 1
-    fi
+	APP=$(which "$1")
+	if [ "$APP" = "" ]; then
+		echo "Missing $1, $2"
+		exit 1
+	fi
 }
 
 function requireEnvVar() {
-    if [ "$2" = "" ]; then
-        echo "Missing environment variable: $1"
-        exit 1
-    fi
+	if [ "$2" = "" ]; then
+		echo "Missing environment variable: $1"
+		exit 1
+	fi
 }
 
 requireSoftware "curl" "usually installed with your operating system or OS's package manager"
 requireSoftware "jsonrange" "See: https://caltechlibrary.github.io/datatools/"
-requireEnvVar "ORCID_API_URL" $ORCID_API_URL
-requireEnvVar "ORCID_CLIENT_ID" $ORCID_CLIENT_ID
-requireEnvVar "ORCID_CLIENT_SECRET" $ORCID_CLIENT_SECRET
+requireEnvVar "ORCID_API_URL" "$ORCID_API_URL"
+requireEnvVar "ORCID_CLIENT_ID" "$ORCID_CLIENT_ID"
+requireEnvVar "ORCID_CLIENT_SECRET" "$ORCID_CLIENT_SECRET"
 
-export ORCID_ACCESS_TOKEN=$(curl -L -H "Accept: application/json" \
-    -d "client_id=$ORCID_CLIENT_ID" \
-    -d "client_secret=$ORCID_CLIENT_SECRET" \
-    -d "scope=/read-public" \
-    -d "grant_type=client_credentials" \
-    "$ORCID_API_URL/oauth/token" | jsoncols .access_token)
-echo 
+ORCID_ACCESS_TOKEN=$(curl -L -H "Accept: application/json" \
+	-d "client_id=$ORCID_CLIENT_ID" \
+	-d "client_secret=$ORCID_CLIENT_SECRET" \
+	-d "scope=/read-public" \
+	-d "grant_type=client_credentials" \
+	"$ORCID_API_URL/oauth/token" | jsoncols .access_token)
+echo
 
 if [ "$ORCID_ACCESS_TOKEN" != "" ]; then
-   echo 
-   echo "export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN"
-   echo 
-   export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN
+	echo
+	echo "export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN"
+	echo
+	export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN
 else
-    echo "Login failed $?"
+	echo "Login failed $?"
 fi
