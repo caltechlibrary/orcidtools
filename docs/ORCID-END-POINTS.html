@@ -15,7 +15,7 @@
 <li><a href="./">Index</a></li>
 <li><a href="../">Up</a></li>
 <li><a href="DOI-NOTES.html">DOI APIs and Search pages</a></li>
-<li><a href="ORCID-END-POINTS.html">ORCID API End Points</a></li>
+<li><a href="ORCID-END-POINTS.html">Supported  ORCID API v2.0 End Points</a></li>
 <li><a href="background-material.html">Background material</a></li>
 <li><a href="notes-for-carpentry.html">ORCID Exploration and Integration</a></li>
 <li><a href="orcid.html">USAGE</a></li>
@@ -25,25 +25,93 @@
 </nav>
 
 <section>
-<h1>ORCID API End Points</h1>
+<h1>Supported  ORCID API v2.0 End Points</h1>
 
-<ul>
-<li>/orcid-profile/ returns a full profile including both Bio and Activities with API
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
 
-<ul>
-<li>this is what you would use for system integration with the service</li>
-</ul></li>
-<li>/orcid-bio/ returns a profile object without the details of activity
+<tbody>
+<tr>
+<td>/record</td>
+<td>Summary view of the full ORCID record</td>
+</tr>
 
-<ul>
-<li>this is what you want if you want to render output to a web page like a faculty bio</li>
-</ul></li>
-<li>/orcid-works/ returns a profile object with only the works section
+<tr>
+<td>/person</td>
+<td>Biographical section of the ORCID record, including through /researcher-urls below</td>
+</tr>
 
-<ul>
-<li>this is what you want of you are generating a pubs list from an ORCID id</li>
-</ul></li>
-</ul>
+<tr>
+<td>/address</td>
+<td>The researcher’s countries or regions</td>
+</tr>
+
+<tr>
+<td>/email</td>
+<td>The email address(es) associated with the record</td>
+</tr>
+
+<tr>
+<td>/external-identifiers</td>
+<td>Linked external identifiers in other systems</td>
+</tr>
+
+<tr>
+<td>/keywords</td>
+<td>Keywords related to the researcher and their work</td>
+</tr>
+
+<tr>
+<td>/other-names</td>
+<td>Other names by which the researcher is known</td>
+</tr>
+
+<tr>
+<td>/personal-details</td>
+<td>Personal details: the researcher’s name, credit (published) name, and biography</td>
+</tr>
+
+<tr>
+<td>/researcher-urls</td>
+<td>Links to the researcher’s personal or profile pages</td>
+</tr>
+
+<tr>
+<td>/activities</td>
+<td>Summary of the activities section of the ORCID record, including through /works below.</td>
+</tr>
+
+<tr>
+<td>/educations</td>
+<td>Education affiliations</td>
+</tr>
+
+<tr>
+<td>/employments</td>
+<td>Employment affiliations</td>
+</tr>
+
+<tr>
+<td>/fundings</td>
+<td>Summary of funding activities</td>
+</tr>
+
+<tr>
+<td>/peer-reviews</td>
+<td>Summary of peer review activities</td>
+</tr>
+
+<tr>
+<td>/works</td>
+<td>Summary of research works</td>
+</tr>
+</tbody>
+</table>
 
 </section>
 

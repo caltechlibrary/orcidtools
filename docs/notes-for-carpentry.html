@@ -15,7 +15,7 @@
 <li><a href="./">Index</a></li>
 <li><a href="../">Up</a></li>
 <li><a href="DOI-NOTES.html">DOI APIs and Search pages</a></li>
-<li><a href="ORCID-END-POINTS.html">ORCID API End Points</a></li>
+<li><a href="ORCID-END-POINTS.html">Supported  ORCID API v2.0 End Points</a></li>
 <li><a href="background-material.html">Background material</a></li>
 <li><a href="notes-for-carpentry.html">ORCID Exploration and Integration</a></li>
 <li><a href="orcid.html">USAGE</a></li>
@@ -53,7 +53,7 @@
 <li>Using access tokens search by email domain</li>
 </ol>
 
-<pre><code class="language-shell">curl -H &quot;Content-Type: application/orcid+xml&quot; -H &quot;Authorization: 39a1d9c5-e753-41b8-b676-a82142ef67ae&quot; &quot;https://pub.sandbox.orcid.org/v1.2/search/orcid-bio/?q=email:*@caltech.edu
+<pre><code class="language-shell">curl -H &quot;Content-Type: application/orcid+xml&quot; -H &quot;Authorization: 39a1d9c5-e753-41b8-b676-a82142ef67ae&quot; &quot;https://pub.sandbox.orcid.org/v2.0/search/record/?q=email:*@caltech.edu
 </code></pre>
 
 <ol>
@@ -153,7 +153,7 @@ environment variable to be set.</p>
     
     curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
         -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
-        -X GET &quot;$ORCID_API_URL/v1.2/search/orcid-bio/?q=email:$EMAIL&quot;
+        -X GET &quot;$ORCID_API_URL/v2.0/search/record/?q=email:$EMAIL&quot;
 </code></pre>
 
 <h3>Recipe for getting an ORCID profile</h3>
@@ -189,7 +189,7 @@ environment variable to be set.</p>
     
     curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
         -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
-        -X GET &quot;$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-profile&quot;
+        -X GET &quot;$ORCID_API_URL/v2.0/$ORCID_NUMBER/person&quot;
 </code></pre>
 
 <h3>Recipe for getting a list of ORCID Works</h3>
@@ -225,7 +225,7 @@ environment variable to be set.</p>
     
     curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
         -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
-        -X GET &quot;$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-works&quot;
+        -X GET &quot;$ORCID_API_URL/v2.0/$ORCID_NUMBER/works&quot;
 </code></pre>
 
 </section>
