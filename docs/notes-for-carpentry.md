@@ -24,7 +24,7 @@
 2. Using access tokens search by email domain
 
 ```shell
-curl -H "Content-Type: application/orcid+xml" -H "Authorization: 39a1d9c5-e753-41b8-b676-a82142ef67ae" "https://pub.sandbox.orcid.org/v1.2/search/orcid-bio/?q=email:*@caltech.edu
+curl -H "Content-Type: application/orcid+xml" -H "Authorization: 39a1d9c5-e753-41b8-b676-a82142ef67ae" "https://pub.sandbox.orcid.org/v2.0/search/record/?q=email:*@caltech.edu
 ```
 3. Save data
 4. transform into XLSX/CSV files
@@ -117,7 +117,7 @@ environment variable to be set.
     
     curl -L -H "Content-Type: application/vdn.orcid+xml" \
         -H "Authorization: Bearer $ORCID_ACCESS_TOKEN" \
-        -X GET "$ORCID_API_URL/v1.2/search/orcid-bio/?q=email:$EMAIL"
+        -X GET "$ORCID_API_URL/v2.0/search/record/?q=email:$EMAIL"
 ```
 
 ### Recipe for getting an ORCID profile
@@ -152,7 +152,7 @@ This script will get an ORCID profile. It requires the following environment var
     
     curl -L -H "Content-Type: application/vdn.orcid+xml" \
         -H "Authorization: Bearer $ORCID_ACCESS_TOKEN" \
-        -X GET "$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-profile"
+        -X GET "$ORCID_API_URL/v2.0/$ORCID_NUMBER/person"
 ```
 
 ### Recipe for getting a list of ORCID Works 
@@ -188,7 +188,7 @@ This script will get an ORCID works list by ORCID number. It requires the follow
     
     curl -L -H "Content-Type: application/vdn.orcid+xml" \
         -H "Authorization: Bearer $ORCID_ACCESS_TOKEN" \
-        -X GET "$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-works"
+        -X GET "$ORCID_API_URL/v2.0/$ORCID_NUMBER/works"
 ```
 
 
