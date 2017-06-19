@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="./">Index</a></li>
+<li><a href="../">Up</a></li>
+<li><a href="DOI-NOTES.html">DOI APIs and Search pages</a></li>
+<li><a href="ORCID-END-POINTS.html">ORCID API End Points</a></li>
+<li><a href="background-material.html">Background material</a></li>
+<li><a href="notes-for-carpentry.html">ORCID Exploration and Integration</a></li>
+<li><a href="orcid.html">USAGE</a></li>
+<li><a href="ot-recipes.html">OT Recipes</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>ORCID Exploration and Integration</h1>
+
+<h2>Get All Caltech ORCID ids</h2>
+
+<ul>
+<li><a href="http://members.orcid.org/finding-orcid-record-holders-your-institution">Getting ORCIDs by institution</a> - get orcids with @caltech.edu in the name</li>
+<li><a href="http://members.orcid.org/api/tutorial-searching-api-12-and-earlier">Tutorial on Search for ORCIDs</a> -</li>
+<li><a href="http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier">Tutorial on searching the API with Curl</a></li>
+<li><a href="http://support.orcid.org/knowledgebase/articles/223698">How do I get public data</a></li>
+</ul>
+
+<h3>Steps</h3>
+
+<ol>
+<li>Get an Access token (does not expire)</li>
+</ol>
+
+<pre><code class="language-shell">    curl -i -L -H &quot;Accept: application/json&quot; -d &quot;client_id=APP-01XX65MXBF79VJGF&quot; -d &quot;client_secret=3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot; -d &quot;scope=/read-public&quot; -d &quot;grant_type=client_credentials&quot; &quot;https://pub.sandbox.orcid.org/oauth/token&quot;
+</code></pre>
+
+<pre><code class="language-json">
+    {&quot;access_token&quot;:&quot;39a1d9c5-e753-41b8-b676-a82142ef67ae&quot;,&quot;token_type&quot;:&quot;bearer&quot;,&quot;refresh_token&quot;:&quot;a3a2420a-b964-4cee-bc15-7bdd873b1643&quot;,&quot;expires_in&quot;:631138518,&quot;scope&quot;:&quot;/read-public&quot;,&quot;orcid&quot;:null}
+</code></pre>
+
+<ol>
+<li>Using access tokens search by email domain</li>
+</ol>
+
+<pre><code class="language-shell">curl -H &quot;Content-Type: application/orcid+xml&quot; -H &quot;Authorization: 39a1d9c5-e753-41b8-b676-a82142ef67ae&quot; &quot;https://pub.sandbox.orcid.org/v1.2/search/orcid-bio/?q=email:*@caltech.edu
+</code></pre>
+
+<ol>
+<li>Save data</li>
+<li>transform into XLSX/CSV files</li>
+</ol>
+
+<h3>Algorithm</h3>
+
+<ol>
+<li>For each faculty name in faculty list matching eprints</li>
+<li>For each DOI associated with an EPrint query the Orcid Public API for associated Name and DOI, if hit remember the information and ORCID</li>
+<li>For each faculty member without a related DOI query the Orcid Public API by name, if only one record return remember the orcid and return any associated data</li>
+<li>For each EPrint with ORCID make sure we&rsquo;ve have added the name to faculty list, to get full details query the Orcid Public API and save record</li>
+</ol>
+
+<h2>Activities around API</h2>
+
+<h3>Recipe for authenticating with API</h3>
+
+<p>This Bash script uses <em>curl</em> and <a href="https://stedolan.github.io/jq/">jq</a> to interact with the ORCID API.<br />
+It requires the following environment variables to be set.</p>
+
+<ul>
+<li>ORCID_API_URL</li>
+<li>ORCID_CLIENT_ID</li>
+<li>ORCID_SECRET</li>
+</ul>
+
+<p>If successful it will display a string you can copy and paste into your shell session that exports ORCID_ACCESS_TOKEN. This last
+environment variable is used by the other script examples.</p>
+
+<pre><code class="language-shell">    #!/bin/bash
+    #
+    # This script will display the ORCID_ACCESS_TOKEN based on
+    # authenticating against the API. You will then need to set that value as the
+    # environment vairable ORCID_ACCESS_TOKEN to use the other scripts in this directory.
+    #
+    
+    function requireEnvVar() {
+        if [ &quot;$2&quot; = &quot;&quot; ]; then
+            echo &quot;Missing environment variable: $1&quot;
+            exit 1
+        fi
+    }
+    
+    requireEnvVar &quot;ORCID_API_URL&quot; $ORCID_API_URL
+    requireEnvVar &quot;ORCID_CLIENT_ID&quot; $ORCID_CLIENT_ID
+    requireEnvVar &quot;ORCID_CLIENT_SECRET&quot; $ORCID_CLIENT_SECRET
+    
+    export ORCID_ACCESS_TOKEN=$(curl -L -H &quot;Accept: application/json&quot; \
+        -d &quot;client_id=$ORCID_CLIENT_ID&quot; \
+        -d &quot;client_secret=$ORCID_CLIENT_SECRET&quot; \
+        -d &quot;scope=/read-public&quot; \
+        -d &quot;grant_type=client_credentials&quot; \
+        &quot;$ORCID_API_URL/oauth/token&quot; | jq .access_token)
+    echo 
+    if [ &quot;$ORCID_ACCESS_TOKEN&quot; != &quot;&quot; ]; then
+       echo 
+       echo &quot;export ORCID_ACCESS_TOKEN=$ORCID_ACCESS_TOKEN&quot;
+       echo 
+    else
+        echo &quot;Login failed $?&quot;
+    fi
+</code></pre>
+
+<h3>Recipe for searching for ORCID by email</h3>
+
+<p>This script will search for an email address (or a wildcarded email address). It requires the following
+environment variable to be set.</p>
+
+<ul>
+<li>ORCID_API_URL</li>
+<li>ORCID_ACCESS_TOKEN</li>
+<li>EMAIL (can all be passed as an option to the script)</li>
+</ul>
+
+<pre><code class="language-shell">    #!/bin/bash
+    #
+    # This script will search for an ORCID by providing a partial or complete 
+    # email address.
+    #
+    
+    function requireEnvVar() {
+        if [ &quot;$2&quot; = &quot;&quot; ]; then
+            echo &quot;Missing $1&quot;
+            exit 1
+        fi
+    }
+    
+    if [ &quot;$1&quot; != &quot;&quot; ]; then
+        export EMAIL=&quot;$1&quot;
+    fi
+    requireEnvVar &quot;ORCID_API_URL&quot; $ORCID_API_URL
+    requireEnvVar &quot;ORCID_ACCESS_TOKEN&quot; $ORCID_ACCESS_TOKEN
+    requireEnvVar &quot;EMAIL&quot; $EMAIL
+    
+    curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
+        -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
+        -X GET &quot;$ORCID_API_URL/v1.2/search/orcid-bio/?q=email:$EMAIL&quot;
+</code></pre>
+
+<h3>Recipe for getting an ORCID profile</h3>
+
+<p>This script will get an ORCID profile. It requires the following environment variable to be set.</p>
+
+<ul>
+<li>ORCID_API_URL</li>
+<li>ORCID_ACCESS_TOKEN</li>
+<li>ORICD_NUMBER (can be provided as an option to the script)</li>
+</ul>
+
+<pre><code class="language-shell">    #!/bin/bash
+    #
+    # This script will search an ORCID profile by providing a ORCID number
+    # email address.
+    #
+    
+    function requireEnvVar() {
+        if [ &quot;$2&quot; = &quot;&quot; ]; then
+            echo &quot;Missing $1&quot;
+            exit 1
+        fi
+    }
+    
+    
+    if [ &quot;$1&quot; != &quot;&quot; ]; then
+        export ORCID_NUMBER=&quot;$1&quot;
+    fi
+    requireEnvVar &quot;ORCID_API_URL&quot; $ORCID_API_URL
+    requireEnvVar &quot;ORCID_ACCESS_TOKEN&quot; $ORCID_ACCESS_TOKEN
+    requireEnvVar &quot;ORCID_NUMBER&quot; $ORCID_NUMBER
+    
+    curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
+        -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
+        -X GET &quot;$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-profile&quot;
+</code></pre>
+
+<h3>Recipe for getting a list of ORCID Works</h3>
+
+<p>This script will get an ORCID works list by ORCID number. It requires the following environment variable to be set.</p>
+
+<ul>
+<li>ORCID_API_URL</li>
+<li>ORCID_ACCESS_TOKEN</li>
+<li>ORICD_NUMBER (can be provided as an option to the script)</li>
+</ul>
+
+<pre><code class="language-shell">    #!/bin/bash
+    #
+    # This script will a list of ORCID works by providing a ORCID number
+    # email address.
+    #
+    
+    function requireEnvVar() {
+        if [ &quot;$2&quot; = &quot;&quot; ]; then
+            echo &quot;Missing $1&quot;
+            exit 1
+        fi
+    }
+    
+    
+    if [ &quot;$1&quot; != &quot;&quot; ]; then
+        export ORCID_NUMBER=&quot;$1&quot;
+    fi
+    requireEnvVar &quot;ORCID_API_URL&quot; $ORCID_API_URL
+    requireEnvVar &quot;ORCID_ACCESS_TOKEN&quot; $ORCID_ACCESS_TOKEN
+    requireEnvVar &quot;ORCID_NUMBER&quot; $ORCID_NUMBER
+    
+    curl -L -H &quot;Content-Type: application/vdn.orcid+xml&quot; \
+        -H &quot;Authorization: Bearer $ORCID_ACCESS_TOKEN&quot; \
+        -X GET &quot;$ORCID_API_URL/v1.2/$ORCID_NUMBER/orcid-works&quot;
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ot</title>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
 <header>
-<a href="http://library.caltech.edu" title="link to Caltech Library Homepage"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
 </header>
 <nav>
 <ul>
@@ -15,7 +15,7 @@
 <li><a href="index.html">README</a></li>
 <li><a href="license.html">LICENSE</a></li>
 <li><a href="install.html">INSTALL</a></li>
-<li><a href="orcid.html">orcid</a></li>
+<li><a href="docs/">Documentation</a></li>
 <li><a href="https://github.com/caltechlibrary/ot">Github</a></li>
 </ul>
 
@@ -24,72 +24,188 @@
 <section>
 <h1>Installation</h1>
 
-<p><em>ot</em> is a command line program run from a shell like Bash. You can find compiled
-version in the <a href="https://github.com/caltechlibrary/ot/releases/latest">releases</a>
-in the Github repository in a zip file named <em>ot-release.zip</em>. Inside
-the zip file look for the directory that matches your computer and copy that someplace
-defined in your path (e.g. $HOME/bin).</p>
+<p><em>ot</em> is a Go package which includes an command line program named <em>orcid</em> for fetching data from
+the <a href="https://orcid.org">ORCID API</a>. The command line program runs in a shell like Bash. You can find compiled
+version in the <a href="https://github.com/caltechlibrary/ot/releases/latest">releases</a>.</p>
 
-<p>Compiled versions are available for Mac OS X (amd64 processor), Linux (amd64), Windows
-(amd64) and Rapsberry Pi (both ARM6 and ARM7)</p>
+<p>This is generalized instructions for a release.</p>
 
-<h2>Mac OS X</h2>
+<h2>Compiled version</h2>
 
-<ol>
-<li>Go to <a href="https://github.com/caltechlibrary/ot/releases/latest">github.com/caltechlibrary/ot/releases/latest</a></li>
-<li>Click on the green &ldquo;ot-release.zip&rdquo; link and download</li>
-<li>Open a finder window and find the downloaded file and unzip it (e.g. ot-release.zip)</li>
-<li>Look in the unziped folder and find dist/macosx-amd64/orcid</li>
-<li>Drag (or copy) the <em>ot</em> to a &ldquo;bin&rdquo; directory in your path</li>
-<li>Open and &ldquo;Terminal&rdquo; and run <code>orcid -h</code></li>
-</ol>
+<p>Compiled versions are available for Mac OS X (amd64 processor, macosx-amd64), Linux (amd64 process, linux-amd64),
+Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspbian-arm7)</p>
 
-<h2>Windows</h2>
+<p>VERSION_NUMBER is a <a href="http://semver.org/">symantic version number</a> (e.g. v0.1.2)</p>
 
-<ol>
-<li>Go to <a href="https://github.com/caltechlibrary/ot/releases/latest">github.com/caltechlibrary/ot/releases/latest</a></li>
-<li>Click on the green &ldquo;ot-release.zip&rdquo; link and download</li>
-<li>Open the file manager find the downloaded file and unzip it (e.g. ot-release.zip)</li>
-<li>Look in the unziped folder and find dist/windows-amd64/orcid.exe</li>
-<li>Drag (or copy) the <em>ot.exe</em> to a &ldquo;bin&rdquo; directory in your path</li>
-<li>Open Bash and and run <code>orcid -h</code></li>
-</ol>
+<p>For all the released version go to the project page on Github and click latest release</p>
 
-<h2>Linux</h2>
+<blockquote>
+<p><a href="https://github.com/caltechlibrary/ot/releases/latest">https://github.com/caltechlibrary/ot/releases/latest</a></p>
+</blockquote>
 
-<ol>
-<li>Go to <a href="https://github.com/caltechlibrary/ot/releases/latest">github.com/caltechlibrary/ot/releases/latest</a></li>
-<li>Click on the green &ldquo;ot-release.zip&rdquo; link and download</li>
-<li>find the downloaded zip file and unzip it (e.g. unzip ~/Downloads/ot-release.zip)</li>
-<li>In the unziped directory and find for dist/linux-amd64/orcid</li>
-<li>copy the <em>ot</em> to a &ldquo;bin&rdquo; directory (e.g. cp ~/Downloads/ot-release/dist/linux-amd64/orcid ~/bin/)</li>
-<li>From the shell prompt run <code>orcid -h</code></li>
-</ol>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Zip Filename</th>
+</tr>
+</thead>
 
-<h2>Raspberry Pi</h2>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>ot-VERSION_NUMBER-windows-amd64.zip</td>
+</tr>
 
-<p>If you are using a Raspberry Pi 2 or later use the ARM7 binary, ARM6 is only for the first generaiton Raspberry Pi.</p>
+<tr>
+<td>Mac OS X</td>
+<td>ot-VERSION_NUMBER-macosx-amd64.zip</td>
+</tr>
 
-<ol>
-<li>Go to <a href="https://github.com/caltechlibrary/ot/releases/latest">github.com/caltechlibrary/ot/releases/latest</a></li>
-<li>Click on the green &ldquo;ot-release.zip&rdquo; link and download</li>
-<li>find the downloaded zip file and unzip it (e.g. unzip ~/Downloads/ot-release.zip)</li>
-<li>In the unziped directory and find for dist/raspberrypi-arm7/orcid</li>
-<li>copy the <em>ot</em> to a &ldquo;bin&rdquo; directory (e.g. cp ~/Downloads/ot-release/dist/raspberrypi-arm7/orcid ~/bin/)
+<tr>
+<td>Linux/Intel</td>
+<td>ot-VERSION_NUMBER-linux-amd64.zip</td>
+</tr>
+
+<tr>
+<td>Raspbery Pi</td>
+<td>ot-VERSION_NUMBER-raspbian-arm7.zip</td>
+</tr>
+</tbody>
+</table>
+
+<h2>The basic recipe</h2>
 
 <ul>
-<li>if you are using an original Raspberry Pi you should copy the ARM6 version instead</li>
+<li>Find the Zip file listed matching the architecture you&rsquo;re running and download it
+
+<ul>
+<li>(e.g. if you&rsquo;re on a Windows 10 laptop/Surface with a amd64 style CPU you&rsquo;d choose the Zip file with &ldquo;windows-amd64&rdquo; in the name).</li>
 </ul></li>
-<li>From the shell prompt run <code>orcid -h</code></li>
+<li>Download the zip file and unzip the file.</li>
+<li>Copy the contents of the folder named &ldquo;bin&rdquo; to a folder that is in your path
+
+<ul>
+<li>(e.g. &ldquo;$HOME/bin&rdquo; is common).</li>
+</ul></li>
+<li>Adjust your PATH if needed
+
+<ul>
+<li>(e.g. <code>export PATH=&quot;$HOME/bin:$PATH&quot;</code>)</li>
+</ul></li>
+<li>Test</li>
+</ul>
+
+<h3>Mac OS X</h3>
+
+<ol>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Make sure the new location in in our path</li>
+<li>Test</li>
 </ol>
+
+<p>Here&rsquo;s an example of the commands run in the Terminal App after downloading the
+zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip ot-*-macosx-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    orcid -version
+</code></pre>
+
+<h3>Windows</h3>
+
+<ol>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
+</ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell on Windows 10 after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip ot-*-windows-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    orcid -version
+</code></pre>
+
+<h3>Linux</h3>
+
+<ol>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
+</ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip ot-*-linux-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    orcid -version
+</code></pre>
+
+<h3>Raspberry Pi</h3>
+
+<p>Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM 7 support).</p>
+
+<ol>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
+</ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip ot-*-raspbian-arm7.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    orcid -version
+</code></pre>
+
+<h2>Compiling from source</h2>
+
+<p><em>ot</em> is &ldquo;go gettable&rdquo;.  Use the &ldquo;go get&rdquo; command to download the dependant packages
+as well as <em>ot</em>&rsquo;s source code.</p>
+
+<pre><code class="language-shell">    go get -u github.com/caltechlibrary/ot/...
+</code></pre>
+
+<p>Or clone the repstory and then compile</p>
+
+<pre><code class="language-shell">    cd
+    git clone https://github.com/caltechlibrary/ot src/github.com/caltechlibrary/ot
+    cd src/github.com/caltechlibrary/ot
+    make
+    make test
+    make install
+</code></pre>
 
 </section>
 
 <footer>
-<span>&copy; 2016 <a href="https://www.library.caltech.edu/copyright">Caltech Library</a></span>
-<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address>
-<span><a href="mailto:library@caltech.edu">Email Us</a></span> 
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
 </footer>
 </body>
 </html>

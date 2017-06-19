@@ -1,46 +1,83 @@
 #!/bin/bash
-#
 
-PROJECT=ot
-
-function makePage() {
-	title="$1"
-	page="$2"
-	nav="$3"
-	html_page="$4"
-	echo "Generating $html_page"
-	mkpage \
-		"title=text:$title" \
-		"content=$page" \
-		"nav=$nav" \
-		page.tmpl >"$html_page"
-	git add "$html_page"
+function softwareCheck() {
+	for CMD in "$@"; do
+		APP=$(which "$CMD")
+		if [ "$APP" = "" ]; then
+			echo "Skipping, missing $CMD"
+			exit 1
+		fi
+	done
 }
 
-# index.html
-if [ -f README.md ]; then
-	makePage "$PROJECT" README.md nav.md index.html
-fi
+function MakePage() {
+	nav="$1"
+	content="$2"
+	html="$3"
 
-# install.html
-if [ -f INSTALL.md ]; then
-	makePage "$PROJECT" INSTALL.md nav.md install.html
-fi
+	echo "Rendering $html"
+	mkpage \
+		"nav=$nav" \
+		"content=$content" \
+		page.tmpl >"$html"
+	git add "$html"
+}
 
-# license.html
-if [ -f LICENSE ]; then
-	makePage "$PROJECT" "markdown:$(cat LICENSE)" nav.md license.html
-fi
+function MakeSubPagesNav() {
+    DIR="$1"
+    START=$(pwd)
+    cd "$DIR"
+    echo "+ [Home](/)"
+    echo "+ [Index](./)"
+    echo "+ [Up](../)"
+    for FNAME in $(ls *.md | sort); do
+        if [ "$FNAME" != "nav.md" ] && [ "$FNAME" != "index.md" ]; then
+            HNAME=$(basename $FNAME ".md")
+            TITLE=$(titleline -i "$FNAME")
+            echo "+ [$TITLE](${HNAME}.html)"
+        fi
+    done
+    cd "$START"
+}
 
-if [ -f ot-recipes.md ]; then
-	makePage "$PROJECT" ot-recipes.md nav.md ot-recipes.html
-fi
+function MakeSubPagesIndex() {
+    DIR="$1"
+    START=$(pwd)
+    cd "$DIR"
+    echo ""
+    echo "# Documentation"
+    echo ""
+    for FNAME in $(ls *.md | sort); do
+        if [ "$FNAME" != "nav.md" ] && [ "$FNAME" != "index.md" ]; then
+            HNAME=$(basename $FNAME ".md")
+            TITLE=$(titleline -i "$FNAME")
+            echo "+ [$TITLE](${HNAME}.html)"
+        fi
+    done
+    cd "$START"
+}
 
-# Add the files to git as needed
-git add index.html install.html license.html ot-recipes.html
+function MakeSubPages() {
+    SUBDIR="${1}"
+    find "${SUBDIR}" -type f | grep -E '\.md$' | while read FNAME; do
+        FNAME="$(basename "${FNAME}" ".md")"
+        if [ "$FNAME" != "nav" ]; then
+	        MakePage "${SUBDIR}/nav.md" "${SUBDIR}/${FNAME}.md" "${SUBDIR}/${FNAME}.html"
+        fi
+    done
+}
 
-# Add command docs
-#for FNAME in orcid; do
-FNAME=orcid
-makePage "$PROJECT" "${FNAME}.md" nav.md "${FNAME}.html"
-#done
+echo "Checking software..."
+softwareCheck mkpage
+echo "Generating website"
+MakePage nav.md README.md index.html
+MakePage nav.md INSTALL.md install.html
+MakePage nav.md "markdown:$(cat LICENSE)" license.html
+
+# Build utility docs pages
+MakeSubPagesNav docs > docs/nav.md
+MakeSubPagesIndex docs > docs/index.md
+MakeSubPages docs
+
+# Build how-to pages
+#MakeSubPages how-to
