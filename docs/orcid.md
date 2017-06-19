@@ -1,5 +1,7 @@
 
-# USAGE
+# orcid
+
+## USAGE: 
 
     orcid [OPTIONS] ORCID
 
@@ -10,7 +12,7 @@ See http://orcid.org/organizations/integrators for details. It requires
 a client id and secret to access. This is set via environment variables
 or the command line.
 
-## CONFIGURATION
+##CONFIGURATION
 
 + ORCID_API_URL - set the URL for accessing the ORCID API (e.g. sandbox or members URL)
 + ORCID_CLIENT_ID - the client id for your registered ORCID app
@@ -18,31 +20,38 @@ or the command line.
 
 ## OPTIONS
 
-```
-    -activities    display activity
-    -affiliations    display affiliations
-    -bio    display biography
-    -funding    display funding
-    -h    display help
-    -help    display help
-    -l    display license
-    -license    display license
-    -o    use orcid id
-    -orcid    use orcid id
-    -profile    display profile
-    -v    display version
-    -version    display version
-    -works    display works
-```
+	-activities	display activities
+	-address	display address
+	-educations	display education affiliations
+	-email	display email
+	-employments	display employment affiliations
+	-external-ids	display external identifies
+	-fundings	display funding activities
+	-h	display help
+	-help	display help
+	-keywords	display keywords
+	-l	display license
+	-license	display license
+	-o	use orcid id
+	-orcid	use orcid id
+	-other-names	display other names
+	-peer-reviews	display peer review activities
+	-person	display person
+	-personal-details	display personal detials
+	-record	display record
+	-researcher-urls	display researcher urls
+	-v	display version
+	-version	display version
+	-works	display 
 
 ## EXAMPLES
 
 Get an ORCID "works" from the sandbox for a given ORCID id.
 
-```
+```shell
     export ORCID_API_URL="https://pub.sandbox.orcid.org"
-    export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
-    export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
-    orcid -works 0000-0003-0900-6903
+	export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
+	export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
+	orcid -works 0000-0003-0900-6903
 ```
 
