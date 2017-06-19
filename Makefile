@@ -47,25 +47,25 @@ publish: website
 dist/linux-amd64:
 	mkdir -p dist/bin
 	env GOOS=linux GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
-	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md docs/* * etc/* bin/*
+	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/*
 	rm -fR dist/bin
 
 dist/windows-amd64:
 	mkdir -p dist/bin
 	env GOOS=windows GOARCH=amd64 go build -o dist/bin/orcid.exe cmds/orcid/orcid.go
-	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md docs/* * etc/* bin/*
+	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/*
 	rm -fR dist/bin
 
 dist/macosx-amd64:
 	mkdir -p dist/bin
 	env GOOS=darwin GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
-	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md docs/* * etc/* bin/*
+	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/*
 	rm -fR dist/bin
 
 dist/raspbian-arm7:
 	mkdir -p dist/bin
 	env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/orcid cmds/orcid/orcid.go
-	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md docs/* * etc/* bin/*
+	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md docs/* etc/* bin/*
 	rm -fR dist/bin
 
 distribute_docs:
