@@ -30,7 +30,7 @@ save:
 	git push origin $(BRANCH)
 
 orcid: ot.go cmds/orcid/orcid.go
-	env CGO_ENABLED=0 go build -o bin/orcid cmds/orcid/orcid.go
+	env go build -o bin/orcid cmds/orcid/orcid.go
 
 
 clean:

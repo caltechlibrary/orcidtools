@@ -81,12 +81,22 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showVersion bool
 
 	// Application Options
-	showProfile      bool
-	showWorks        bool
-	showBio          bool
-	showActivities   bool
-	showAffiliations bool
-	showFunding      bool
+	showRecord              bool
+	showPerson              bool
+	showAddress             bool
+	showEmail               bool
+	showExternalIdentifiers bool
+	showKeywords            bool
+	showOtherNames          bool
+	showPersonalDetails     bool
+	showResearcherURLS      bool
+	showActivities          bool
+	showEducations          bool
+	showEmployments         bool
+	showFundings            bool
+	showPeerReviews         bool
+	showProfile             bool
+	showWorks               bool
 
 	// Required
 	apiURL       string
@@ -105,12 +115,21 @@ func init() {
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
 	// Application Options
-	flag.BoolVar(&showProfile, "profile", false, "display profile")
-	flag.BoolVar(&showWorks, "works", false, "display works")
-	flag.BoolVar(&showBio, "bio", false, "display biography")
-	flag.BoolVar(&showActivities, "activities", false, "display activity")
-	flag.BoolVar(&showAffiliations, "affiliations", false, "display affiliations")
-	flag.BoolVar(&showFunding, "funding", false, "display funding")
+	flag.BoolVar(&showRecord, "record", false, "display record")
+	flag.BoolVar(&showPerson, "person", false, "display person")
+	flag.BoolVar(&showAddress, "address", false, "display address")
+	flag.BoolVar(&showEmail, "email", false, "display email")
+	flag.BoolVar(&showExternalIdentifiers, "external-ids", false, "display external identifies")
+	flag.BoolVar(&showKeywords, "keywords", false, "display keywords")
+	flag.BoolVar(&showOtherNames, "other-names", false, "display other names")
+	flag.BoolVar(&showPersonalDetails, "personal-details", false, "display personal detials")
+	flag.BoolVar(&showResearcherURLS, "researcher-urls", false, "display researcher urls")
+	flag.BoolVar(&showActivities, "activities", false, "display activities")
+	flag.BoolVar(&showEducations, "educations", false, "display education affiliations")
+	flag.BoolVar(&showEmployments, "employments", false, "display employment affiliations")
+	flag.BoolVar(&showFundings, "fundings", false, "display funding activities")
+	flag.BoolVar(&showPeerReviews, "peer-reviews", false, "display peer review activities")
+	flag.BoolVar(&showWorks, "works", false, "display ")
 
 	flag.StringVar(&orcidID, "o", "", "use orcid id")
 	flag.StringVar(&orcidID, "orcid", "", "use orcid id")
@@ -151,23 +170,50 @@ func main() {
 
 	var requestType string
 
-	if showProfile == true {
-		requestType = "orcid-profile"
+	if showRecord == true {
+		requestType = "record"
 	}
-	if showWorks == true {
-		requestType = "orcid-works"
+	if showPerson == true {
+		requestType = "person"
 	}
-	if showBio == true {
-		requestType = "orcid-bio"
+	if showAddress == true {
+		requestType = "address"
+	}
+	if showEmail == true {
+		requestType = "email"
+	}
+	if showExternalIdentifiers == true {
+		requestType = "external-identifiers"
+	}
+	if showKeywords == true {
+		requestType = "keywords"
+	}
+	if showOtherNames == true {
+		requestType = "other-names"
+	}
+	if showPersonalDetails == true {
+		requestType = "person-details"
+	}
+	if showResearcherURLS == true {
+		requestType = "researcher-urls"
 	}
 	if showActivities == true {
-		requestType = "acitivities"
+		requestType = "activities"
 	}
-	if showAffiliations == true {
-		requestType = "affiliations"
+	if showEducations == true {
+		requestType = "educations"
 	}
-	if showFunding == true {
-		requestType = "funding"
+	if showEmployments == true {
+		requestType = "employments"
+	}
+	if showFundings == true {
+		requestType = "fundings"
+	}
+	if showPeerReviews == true {
+		requestType = "peer-reviews"
+	}
+	if showWorks == true {
+		requestType = "works"
 	}
 	if requestType == "" {
 		fmt.Fprintf(os.Stderr, "Not sure what to do, see %s -help", appName)
@@ -181,7 +227,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	src, err := api.Request("GET", fmt.Sprintf("/v1.2/%s/%s", orcidID, requestType), map[string]string{})
+	src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, requestType), map[string]string{})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s", err)
 		os.Exit(1)
