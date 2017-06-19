@@ -192,7 +192,7 @@ func main() {
 		requestType = "other-names"
 	}
 	if showPersonalDetails == true {
-		requestType = "person-details"
+		requestType = "personal-details"
 	}
 	if showResearcherURLS == true {
 		requestType = "researcher-urls"
