@@ -3,7 +3,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2016, Caltech
+// Copyright (c) 2017, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ import (
 
 const (
 	// Version of ot package
-	Version = "v0.0.2"
+	Version = "v0.0.3"
 
 	// License string suitable to populate via cli
 	LicenseText = `

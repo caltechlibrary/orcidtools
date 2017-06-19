@@ -36,7 +36,6 @@ orcid: ot.go cmds/orcid/orcid.go
 clean:
 	if [ -d bin ]; then /bin/rm -fR bin; fi
 	if [ -d dist ]; then /bin/rm -fR dist; fi
-	if [ -f $(PROJECT)-$(VERSION)-release.zip ]; then /bin/rm $(PROJECT)-$(VERSION)-release.zip; fi
 
 website:
 	./mk-website.bash
@@ -44,27 +43,40 @@ website:
 publish: website
 	./publish.bash
 
-release: dist/linux-amd64 dist/windows-amd64 dist/macosx-amd64 dist/raspbian-arm7
+
+dist/linux-amd64:
+	mkdir -p dist/bin
+	env GOOS=linux GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md docs/* how-to/* templates/* etc/* bin/*
+	rm -fR dist/bin
+
+dist/windows-amd64:
+	mkdir -p dist/bin
+	env GOOS=windows GOARCH=amd64 go build -o dist/bin/orcid.exe cmds/orcid/orcid.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md docs/* how-to/* templates/* etc/* bin/*
+	rm -fR dist/bin
+
+dist/macosx-amd64:
+	mkdir -p dist/bin
+	env GOOS=darwin GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md docs/* how-to/* templates/* etc/* bin/*
+	rm -fR dist/bin
+
+dist/raspbian-arm7:
+	mkdir -p dist/bin
+	env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md docs/* how-to/* templates/* etc/* bin/*
+	rm -fR dist/bin
+
+distribute_docs:
 	mkdir -p dist
-	mkdir -p dist/etc/
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -vR scripts dist/
-	cp -vR templates dist/
-	cp -v etc/*-example dist/etc/
-	zip -r $(PROJECT)-$(VERSION)-release.zip dist/*
+	if [ -d docs ]; then mkdir -p dist/docs; cp -v docs/*.md dist/docs/; fi
+	if [ -d templates ]; then mkdir -p dist/templates; cp -v templates/*.tmpl dist/templates/; fi
+	if [ -d etc ]; then mkdir -p dist/etc; cp -v etc/*-example dist/etc/; fi
+	if [ -d how-to ]; then mkdir -p dist/how-to; cp -v how-to/*.md dist/how-to/; fi
 
-dist/linux-amd64:
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/orcid cmds/orcid/orcid.go
-
-dist/windows-amd64:
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/orcid.exe cmds/orcid/orcid.go
-
-dist/macosx-amd64:
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/orcid cmds/orcid/orcid.go
-
-dist/raspbian-arm7:
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspberrypi-arm7/orcid cmds/orcid/orcid.go
-
+release: distribute_docs dist/linux-amd64 dist/windows-amd64 dist/macosx-amd64 dist/raspbian-arm7
 
