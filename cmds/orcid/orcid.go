@@ -69,10 +69,9 @@ EXAMPLES
 Get an ORCID "works" from the sandbox for a given ORCID id.
 
     export ORCID_API_URL="https://pub.sandbox.orcid.org"
-	export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
-	export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
-	%s -works 0000-0003-0900-6903
-
+    export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
+    export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
+    %s -works 0000-0003-0900-6903
 `
 
 	// Standard Options
