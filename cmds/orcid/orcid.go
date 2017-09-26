@@ -78,6 +78,7 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showHelp    bool
 	showLicense bool
 	showVersion bool
+	verbose     bool
 
 	// Application Options
 	showRecord              bool
@@ -96,6 +97,7 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showPeerReviews         bool
 	showProfile             bool
 	showWorks               bool
+	searchString            string
 
 	// Required
 	apiURL       string
@@ -112,6 +114,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
 
 	// Application Options
 	flag.BoolVar(&showRecord, "record", false, "display record")
@@ -129,8 +132,9 @@ func init() {
 	flag.BoolVar(&showFundings, "fundings", false, "display funding activities")
 	flag.BoolVar(&showPeerReviews, "peer-reviews", false, "display peer review activities")
 	flag.BoolVar(&showWorks, "works", false, "display ")
+	flag.StringVar(&searchString, "search", "", "search for terms")
 
-	flag.StringVar(&orcidID, "o", "", "use orcid id")
+	flag.StringVar(&orcidID, "O", "", "use orcid id")
 	flag.StringVar(&orcidID, "orcid", "", "use orcid id")
 }
 
@@ -165,7 +169,6 @@ func main() {
 	apiURL = cfg.CheckOption("api_url", cfg.MergeEnv("api_url", apiURL), true)
 	clientID = cfg.CheckOption("client_id", cfg.MergeEnv("client_id", clientID), true)
 	clientSecret = cfg.CheckOption("client_secret", cfg.MergeEnv("client_secret", clientSecret), true)
-	orcidID = cfg.CheckOption("orcid_id", cfg.MergeEnv("orcid_id", orcidID), true)
 
 	var requestType string
 
@@ -214,7 +217,7 @@ func main() {
 	if showWorks == true {
 		requestType = "works"
 	}
-	if requestType == "" {
+	if requestType == "" && searchString == "" {
 		fmt.Fprintf(os.Stderr, "Not sure what to do, see %s -help", appName)
 		os.Exit(1)
 	}
@@ -226,6 +229,20 @@ func main() {
 		os.Exit(1)
 	}
 
+	if searchString != "" {
+		qry := map[string]string{
+			"q": searchString,
+		}
+		src, err := api.Request("GET", "/v2.0/search/", qry)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s", err)
+			os.Exit(1)
+		}
+		fmt.Printf("%s\n", src)
+		os.Exit(0)
+	}
+
+	orcidID = cfg.CheckOption("orcid_id", cfg.MergeEnv("orcid_id", orcidID), true)
 	src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, requestType), map[string]string{})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s", err)

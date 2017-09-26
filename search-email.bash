@@ -65,8 +65,10 @@ fi
 OUT_FORMAT="application/json"
 EMAIL="$1"
 
-curl --silent -L -H "Content-Type: ${OUT_FORMAT}" \
-	-H "Authorization: Bearer ${ORCID_ACCESS_TOKEN}" \
-	-X GET "${ORCID_API_URL}/v2.0/search/?q=email:${EMAIL}" |\
-    jsoncols --quiet '.result[:]["orcid-identifier"].path' |\
-    jsonrange -values
+for EMAIL in $@; do
+    curl --silent -L -H "Content-Type: ${OUT_FORMAT}" \
+	    -H "Authorization: Bearer ${ORCID_ACCESS_TOKEN}" \
+	    -X GET "${ORCID_API_URL}/v2.0/search/?q=email:${EMAIL}" |\
+        jsoncols --quiet '.result[:]["orcid-identifier"].path' |\
+        jsonrange -values
+done
