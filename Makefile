@@ -19,7 +19,7 @@ lint:
 	golint cmds/orcid/orcid.go
 
 install:
-	env GOBIN=$(HOME)/bin go install cmds/orcid/orcid.go
+	env GOBIN=$(GOPATH)/bin go install cmds/orcid/orcid.go
 
 
 status:
