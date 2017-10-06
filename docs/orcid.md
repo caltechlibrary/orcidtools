@@ -1,9 +1,7 @@
 
-# orcid
+# USAGE
 
-## USAGE: 
-
-    orcid [OPTIONS] ORCID
+## orcid [OPTIONS] ORCID
 
 ## SYSNOPIS
 
@@ -12,14 +10,17 @@ See http://orcid.org/organizations/integrators for details. It requires
 a client id and secret to access. This is set via environment variables
 or the command line.
 
-##CONFIGURATION
+## CONFIGURATION
 
 + ORCID_API_URL - set the URL for accessing the ORCID API (e.g. sandbox or members URL)
 + ORCID_CLIENT_ID - the client id for your registered ORCID app
 + ORCID_SECRET - the client secret needed to aquire an access token for the AP
 
+
 ## OPTIONS
 
+```
+	-O	use orcid id
 	-activities	display activities
 	-address	display address
 	-educations	display education affiliations
@@ -32,7 +33,6 @@ or the command line.
 	-keywords	display keywords
 	-l	display license
 	-license	display license
-	-o	use orcid id
 	-orcid	use orcid id
 	-other-names	display other names
 	-peer-reviews	display peer review activities
@@ -40,18 +40,24 @@ or the command line.
 	-personal-details	display personal detials
 	-record	display record
 	-researcher-urls	display researcher urls
+	-search	search for terms
 	-v	display version
+	-verbose	enable verbose logging
 	-version	display version
 	-works	display 
+```
+
 
 ## EXAMPLES
 
 Get an ORCID "works" from the sandbox for a given ORCID id.
 
-```shell
+```
     export ORCID_API_URL="https://pub.sandbox.orcid.org"
-	export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
-	export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
-	orcid -works 0000-0003-0900-6903
+    export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
+    export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
+    orcid -works 0000-0003-0900-6903
 ```
 
+
+orcid v0.0.4

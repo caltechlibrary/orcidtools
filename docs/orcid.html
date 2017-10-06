@@ -14,23 +14,21 @@
 <li><a href="/">Home</a></li>
 <li><a href="./">Index</a></li>
 <li><a href="../">Up</a></li>
-<li><a href="DOI-NOTES.html">DOI APIs and Search pages</a></li>
-<li><a href="ORCID-END-POINTS.html">Supported  ORCID API v2.0 End Points</a></li>
 <li><a href="background-material.html">Background material</a></li>
+<li><a href="DOI-NOTES.html">DOI APIs and Search pages</a></li>
 <li><a href="notes-for-carpentry.html">ORCID Exploration and Integration</a></li>
-<li><a href="orcid.html">orcid</a></li>
+<li><a href="ORCID-END-POINTS.html">Supported  ORCID API v2.0 End Points</a></li>
+<li><a href="orcid.html">USAGE</a></li>
+<li><a href="orcid-tool-demo.html">Demo using <em>orcid</em> api tool </a></li>
 <li><a href="ot-recipes.html">OT Recipes</a></li>
 </ul>
 
 </nav>
 
 <section>
-<h1>orcid</h1>
+<h1>USAGE</h1>
 
-<h2>USAGE:</h2>
-
-<pre><code>orcid [OPTIONS] ORCID
-</code></pre>
+<h2>orcid [OPTIONS] ORCID</h2>
 
 <h2>SYSNOPIS</h2>
 
@@ -39,7 +37,7 @@ See <a href="http://orcid.org/organizations/integrators">http://orcid.org/organi
 a client id and secret to access. This is set via environment variables
 or the command line.</p>
 
-<p>##CONFIGURATION</p>
+<h2>CONFIGURATION</h2>
 
 <ul>
 <li>ORCID_API_URL - set the URL for accessing the ORCID API (e.g. sandbox or members URL)</li>
@@ -49,40 +47,44 @@ or the command line.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-activities display activities
--address    display address
--educations display education affiliations
--email  display email
--employments    display employment affiliations
--external-ids   display external identifies
--fundings   display funding activities
--h  display help
--help   display help
--keywords   display keywords
--l  display license
--license    display license
--o  use orcid id
--orcid  use orcid id
--other-names    display other names
--peer-reviews   display peer review activities
--person display person
--personal-details   display personal detials
--record display record
--researcher-urls    display researcher urls
--v  display version
--version    display version
--works  display 
+<pre><code>	-O	use orcid id
+	-activities	display activities
+	-address	display address
+	-educations	display education affiliations
+	-email	display email
+	-employments	display employment affiliations
+	-external-ids	display external identifies
+	-fundings	display funding activities
+	-h	display help
+	-help	display help
+	-keywords	display keywords
+	-l	display license
+	-license	display license
+	-orcid	use orcid id
+	-other-names	display other names
+	-peer-reviews	display peer review activities
+	-person	display person
+	-personal-details	display personal detials
+	-record	display record
+	-researcher-urls	display researcher urls
+	-search	search for terms
+	-v	display version
+	-verbose	enable verbose logging
+	-version	display version
+	-works	display 
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
 <p>Get an ORCID &ldquo;works&rdquo; from the sandbox for a given ORCID id.</p>
 
-<pre><code class="language-shell">    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
-	export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
-	export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;
-	orcid -works 0000-0003-0900-6903
+<pre><code>    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
+    export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
+    export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;
+    orcid -works 0000-0003-0900-6903
 </code></pre>
+
+<p>orcid v0.0.4</p>
 
 </section>
 
