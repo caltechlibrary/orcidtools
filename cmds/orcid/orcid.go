@@ -42,7 +42,7 @@ import (
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
-	"github.com/caltechlibrary/ot"
+	ot "github.com/caltechlibrary/orcidtools"
 )
 
 var (

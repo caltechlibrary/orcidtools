@@ -1,5 +1,5 @@
 //
-// Package ot is a library for working with the ORCID API
+// Package orcidtools is a library for working with the ORCID API
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
@@ -31,7 +31,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package ot
+package orcidtools
 
 import (
 	"encoding/json"
