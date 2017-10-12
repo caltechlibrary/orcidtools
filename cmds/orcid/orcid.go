@@ -49,6 +49,7 @@ var (
 	usage = "USAGE: %s [OPTIONS] ORCID"
 
 	description = `
+
 SYSNOPIS
 
 %s is a command line tool for harvesting ORCID data from the ORCID API.
@@ -61,9 +62,11 @@ CONFIGURATION
 + ORCID_API_URL - set the URL for accessing the ORCID API (e.g. sandbox or members URL)
 + ORCID_CLIENT_ID - the client id for your registered ORCID app
 + ORCID_SECRET - the client secret needed to aquire an access token for the AP
+
 `
 
 	examples = `
+
 EXAMPLES
 
 Get an ORCID "works" from the sandbox for a given ORCID id.
@@ -72,6 +75,7 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
     export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
     export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
     %s -works 0000-0003-0900-6903
+
 `
 
 	// Standard Options
