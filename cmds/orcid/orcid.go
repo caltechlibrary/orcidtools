@@ -35,13 +35,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
 	"path"
+	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
+	"github.com/caltechlibrary/dotpath"
 	ot "github.com/caltechlibrary/orcidtools"
 )
 
@@ -84,6 +87,7 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showVersion  bool
 	showExamples bool
 	verbose      bool
+	outputFName  string
 
 	// Application Options
 	showRecord              bool
@@ -102,6 +106,7 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 	showPeerReviews         bool
 	showProfile             bool
 	showWorks               bool
+	showWorksDetailed       bool
 	searchString            string
 
 	// Required
@@ -121,6 +126,8 @@ func init() {
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
+	flag.StringVar(&outputFName, "o", "", "set output filename")
+	flag.StringVar(&outputFName, "output", "", "set output filename")
 
 	// Application Options
 	flag.BoolVar(&showRecord, "record", false, "display record")
@@ -137,7 +144,8 @@ func init() {
 	flag.BoolVar(&showEmployments, "employments", false, "display employment affiliations")
 	flag.BoolVar(&showFundings, "fundings", false, "display funding activities")
 	flag.BoolVar(&showPeerReviews, "peer-reviews", false, "display peer review activities")
-	flag.BoolVar(&showWorks, "works", false, "display ")
+	flag.BoolVar(&showWorks, "works", false, "display works summary")
+	flag.BoolVar(&showWorksDetailed, "works-detailed", false, "display works in detail")
 	flag.StringVar(&searchString, "search", "", "search for terms")
 
 	flag.StringVar(&orcidID, "O", "", "use orcid id")
@@ -239,10 +247,20 @@ func main() {
 	if showWorks == true {
 		requestType = "works"
 	}
+	if showWorksDetailed == true {
+		requestType = "works-detailed"
+	}
 	if requestType == "" && searchString == "" {
 		fmt.Fprintf(os.Stderr, "Not sure what to do, see %s -help", appName)
 		os.Exit(1)
 	}
+
+	out, err := cli.Create(outputFName, os.Stdout)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s", err)
+		os.Exit(1)
+	}
+	defer cli.CloseFile(outputFName, out)
 
 	// Setup the API access
 	api, err := ot.New(apiURL, clientID, clientSecret)
@@ -265,10 +283,49 @@ func main() {
 	}
 
 	orcidID = cfg.CheckOption("orcid_id", cfg.MergeEnv("orcid_id", orcidID), true)
-	src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, requestType), map[string]string{})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s", err)
-		os.Exit(1)
+	if requestType == "works-detailed" {
+		src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, "works"), map[string]string{})
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s", err)
+			os.Exit(1)
+		}
+		rawData := map[string]interface{}{}
+		if err := json.Unmarshal(src, &rawData); err != nil {
+			fmt.Fprintf(os.Stderr, "%s", err)
+			os.Exit(1)
+		}
+		keyPath := `.group[:]["work-summary"][:]["put-code"]`
+		if summary, err := dotpath.EvalJSON(keyPath, src); err == nil {
+			workIds := []string{}
+			for _, o := range summary.([]interface{}) {
+				nInterface := o.([]interface{})
+				for _, nVal := range nInterface {
+					//s := fmt.Sprintf("%+v", nVal)
+					workIds = append(workIds, fmt.Sprintf("%+v", nVal)) //s)
+				}
+			}
+			if len(workIds) > 0 {
+				src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s/%s", orcidID, "works", strings.Join(workIds, ",")), map[string]string{})
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "%s", err)
+					os.Exit(1)
+				}
+				fmt.Fprintf(out, "%s\n", src)
+			} else {
+				//NOTE: Something went wrong with the detailed work ids, so just return our "works" request value
+				fmt.Fprintf(out, "%s\n", src)
+			}
+			os.Exit(0)
+		} else {
+			fmt.Fprintf(os.Stderr, "%s", err)
+			os.Exit(1)
+		}
+	} else {
+		src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, requestType), map[string]string{})
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s", err)
+			os.Exit(1)
+		}
+		fmt.Fprintf(out, "%s\n", src)
 	}
-	fmt.Printf("%s\n", src)
 }
