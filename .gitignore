@@ -36,3 +36,4 @@ dist/*
 *.tar
 *.zip
 *.bak
+.*.swp
