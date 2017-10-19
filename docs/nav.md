@@ -1,10 +1,12 @@
+
 + [Home](/)
-+ [Index](./)
 + [Up](../)
-+ [DOI APIs and Search pages](DOI-NOTES.html)
-+ [Supported  ORCID API v2.0 End Points](ORCID-END-POINTS.html)
-+ [Background material](background-material.html)
-+ [ORCID Exploration and Integration](notes-for-carpentry.html)
-+ [Demo using _orcid_ api tool ](orcid-tool-demo.html)
-+ [USAGE](orcid.html)
-+ [OT Recipes](ot-recipes.html)
++ [Documentation](./)
++ [orcid](orcid/)
++ [recipes](orcid/recipes.html)
++ [demo](orcid/demo.html)
++ [v2.0 API end points](v2.0_API_end_points.html)
++ [background material](background-material.html)
++ [Exploration and Integration](exploration-and-integration.html)
+
+
