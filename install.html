@@ -24,9 +24,9 @@
 <section>
 <h1>Installation</h1>
 
-<p><em>ot</em> is a Go package which includes an command line program named <em>orcid</em> for fetching data from
+<p><em>orcidtools</em> is a Go package which includes an command line program named <em>orcid</em> for fetching data from
 the <a href="https://orcid.org">ORCID API</a>. The command line program runs in a shell like Bash. You can find compiled
-version in the <a href="https://github.com/caltechlibrary/ot/releases/latest">releases</a>.</p>
+version in the <a href="https://github.com/caltechlibrary/orcidtools/releases/latest">releases</a>.</p>
 
 <p>This is generalized instructions for a release.</p>
 
@@ -40,7 +40,7 @@ Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspb
 <p>For all the released version go to the project page on Github and click latest release</p>
 
 <blockquote>
-<p><a href="https://github.com/caltechlibrary/ot/releases/latest">https://github.com/caltechlibrary/ot/releases/latest</a></p>
+<p><a href="https://github.com/caltechlibrary/orcidtools/releases/latest">https://github.com/caltechlibrary/orcidtools/releases/latest</a></p>
 </blockquote>
 
 <table>
@@ -54,22 +54,22 @@ Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspb
 <tbody>
 <tr>
 <td>Windows</td>
-<td>ot-VERSION_NUMBER-windows-amd64.zip</td>
+<td>orcidtools-VERSION_NUMBER-windows-amd64.zip</td>
 </tr>
 
 <tr>
 <td>Mac OS X</td>
-<td>ot-VERSION_NUMBER-macosx-amd64.zip</td>
+<td>orcidtools-VERSION_NUMBER-macosx-amd64.zip</td>
 </tr>
 
 <tr>
 <td>Linux/Intel</td>
-<td>ot-VERSION_NUMBER-linux-amd64.zip</td>
+<td>orcidtools-VERSION_NUMBER-linux-amd64.zip</td>
 </tr>
 
 <tr>
 <td>Raspbery Pi</td>
-<td>ot-VERSION_NUMBER-raspbian-arm7.zip</td>
+<td>orcidtools-VERSION_NUMBER-raspbian-arm7.zip</td>
 </tr>
 </tbody>
 </table>
@@ -110,7 +110,7 @@ Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspb
 zip file.</p>
 
 <pre><code class="language-shell">    cd Downloads/
-    unzip ot-*-macosx-amd64.zip
+    unzip orcidtools-*-macosx-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -130,7 +130,7 @@ zip file.</p>
 downloading the zip file.</p>
 
 <pre><code class="language-shell">    cd Downloads/
-    unzip ot-*-windows-amd64.zip
+    unzip orcidtools-*-windows-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -150,7 +150,7 @@ downloading the zip file.</p>
 downloading the zip file.</p>
 
 <pre><code class="language-shell">    cd Downloads/
-    unzip ot-*-linux-amd64.zip
+    unzip orcidtools-*-linux-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -172,7 +172,7 @@ downloading the zip file.</p>
 downloading the zip file.</p>
 
 <pre><code class="language-shell">    cd Downloads/
-    unzip ot-*-raspbian-arm7.zip
+    unzip orcidtools-*-raspbian-arm7.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -181,17 +181,17 @@ downloading the zip file.</p>
 
 <h2>Compiling from source</h2>
 
-<p><em>ot</em> is &ldquo;go gettable&rdquo;.  Use the &ldquo;go get&rdquo; command to download the dependant packages
-as well as <em>ot</em>&rsquo;s source code.</p>
+<p><em>orcidtools</em> is &ldquo;go gettable&rdquo;.  Use the &ldquo;go get&rdquo; command to download the dependant packages
+as well as <em>orcidtools</em>&rsquo;s source code.</p>
 
-<pre><code class="language-shell">    go get -u github.com/caltechlibrary/ot/...
+<pre><code class="language-shell">    go get -u github.com/caltechlibrary/orcidtools/...
 </code></pre>
 
 <p>Or clone the repstory and then compile</p>
 
 <pre><code class="language-shell">    cd
-    git clone https://github.com/caltechlibrary/ot src/github.com/caltechlibrary/ot
-    cd src/github.com/caltechlibrary/ot
+    git clone https://github.com/caltechlibrary/orcidtools src/github.com/caltechlibrary/orcidtools
+    cd src/github.com/caltechlibrary/orcidtools
     make
     make test
     make install
