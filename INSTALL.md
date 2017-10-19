@@ -1,9 +1,9 @@
 
 # Installation
 
-*ot* is a Go package which includes an command line program named *orcid* for fetching data from 
+*orcidtools* is a Go package which includes an command line program named *orcid* for fetching data from 
 the [ORCID API](https://orcid.org). The command line program runs in a shell like Bash. You can find compiled
-version in the [releases](https://github.com/caltechlibrary/ot/releases/latest). 
+version in the [releases](https://github.com/caltechlibrary/orcidtools/releases/latest). 
 
 This is generalized instructions for a release.
 
@@ -17,15 +17,15 @@ VERSION_NUMBER is a [symantic version number](http://semver.org/) (e.g. v0.1.2)
 
 For all the released version go to the project page on Github and click latest release
 
->    https://github.com/caltechlibrary/ot/releases/latest
+>    https://github.com/caltechlibrary/orcidtools/releases/latest
 
 
 | Platform    | Zip Filename                        |
 |-------------|-------------------------------------|
-| Windows     | ot-VERSION_NUMBER-windows-amd64.zip |
-| Mac OS X    | ot-VERSION_NUMBER-macosx-amd64.zip  |
-| Linux/Intel | ot-VERSION_NUMBER-linux-amd64.zip   |
-| Raspbery Pi | ot-VERSION_NUMBER-raspbian-arm7.zip |
+| Windows     | orcidtools-VERSION_NUMBER-windows-amd64.zip |
+| Mac OS X    | orcidtools-VERSION_NUMBER-macosx-amd64.zip  |
+| Linux/Intel | orcidtools-VERSION_NUMBER-linux-amd64.zip   |
+| Raspbery Pi | orcidtools-VERSION_NUMBER-raspbian-arm7.zip |
 
 
 ## The basic recipe
@@ -53,7 +53,7 @@ zip file.
 
 ```shell
     cd Downloads/
-    unzip ot-*-macosx-amd64.zip
+    unzip orcidtools-*-macosx-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -72,7 +72,7 @@ downloading the zip file.
 
 ```shell
     cd Downloads/
-    unzip ot-*-windows-amd64.zip
+    unzip orcidtools-*-windows-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -92,7 +92,7 @@ downloading the zip file.
 
 ```shell
     cd Downloads/
-    unzip ot-*-linux-amd64.zip
+    unzip orcidtools-*-linux-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -114,7 +114,7 @@ downloading the zip file.
 
 ```shell
     cd Downloads/
-    unzip ot-*-raspbian-arm7.zip
+    unzip orcidtools-*-raspbian-arm7.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -124,19 +124,19 @@ downloading the zip file.
 
 ## Compiling from source
 
-_ot_ is "go gettable".  Use the "go get" command to download the dependant packages
-as well as _ot_'s source code.
+_orcidtools_ is "go gettable".  Use the "go get" command to download the dependant packages
+as well as _orcidtools_'s source code.
 
 ```shell
-    go get -u github.com/caltechlibrary/ot/...
+    go get -u github.com/caltechlibrary/orcidtools/...
 ```
 
 Or clone the repstory and then compile
 
 ```shell
     cd
-    git clone https://github.com/caltechlibrary/ot src/github.com/caltechlibrary/ot
-    cd src/github.com/caltechlibrary/ot
+    git clone https://github.com/caltechlibrary/orcidtools src/github.com/caltechlibrary/orcidtools
+    cd src/github.com/caltechlibrary/orcidtools
     make
     make test
     make install
