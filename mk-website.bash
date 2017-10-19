@@ -74,10 +74,10 @@ MakePage nav.md README.md index.html
 MakePage nav.md INSTALL.md install.html
 MakePage nav.md "markdown:$(cat LICENSE)" license.html
 MakePage docs/nav.md docs/index.md docs/index.html
-MakePage docs/nav.md docs/orcid/orcid.md docs/orcid/orcid.md
-MakePage docs/nav.md docs/orcid/v2.0_API_end_points.md docs/orcid/v2.0_API_end_points.html
-MakePage docs/nav.md docs/orcid/recipes.md docs/orcid/recipes.html
-MakePage docs/nav.md docs/orcid/demo.md docs/orcid/demo.html
 MakePage docs/nav.md docs/reference.md docs/reference.html
+MakePage docs/orcid/nav.md docs/orcid/index.md docs/orcid/index.html
+MakePage docs/orcid/nav.md docs/orcid/v2.0_API_end_points.md docs/orcid/v2.0_API_end_points.html
+MakePage docs/orcid/nav.md docs/orcid/recipes.md docs/orcid/recipes.html
+MakePage docs/orcid/nav.md docs/orcid/demo.md docs/orcid/demo.html
 
 

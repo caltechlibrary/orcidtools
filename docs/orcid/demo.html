@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">Up</a></li>
+<li><a href="../index.html">README</a></li>
+<li><a href="../license.html">LICENSE</a></li>
+<li><a href="../install.html">INSTALL</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="https://github.com/caltechlibrary/orcidtools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>Demo using <em>orcid</em> api tool</h1>
+
+<h2>Known ORCID</h2>
+
+<ul>
+<li>Stephen Davison, <a href="https://orcid.org/0000-0003-0102-8200">0000-0003-0102-8200</a></li>
+<li>Gail Clement, <a href="https://orcid.org/0000-0001-5494-4806">0000-0001-5494-4806</a></li>
+<li>Tom Morrel, <a href="https://orcid.org/0000-0001-9266-5146">0000-0001-9266-5146</a></li>
+<li>Robert Doiel, <a href="https://orcid.org/0000-0003-0900-6903">0000-0003-0900-6903</a></li>
+</ul>
+
+<h2>Someone who will never have an ORCID</h2>
+
+<ul>
+<li>Richard Fenyman</li>
+</ul>
+
+<h2>Tool Examples</h2>
+
+<h3>Setup</h3>
+
+<pre><code class="language-shell">    #!/bin/bash
+    #
+    
+    #
+    # This is an example of the environment configuration for accessing the ORCID Public API sandbox.
+    # You need to modify these values to support your access to the public API or sandbox.
+    # These values were taken from the public documentation on the API
+    #
+    # See: https://members.orcid.org/api/accessing-public-api
+    # See: http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier
+    #
+    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
+    export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
+    export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;
+    # You will need to manually set ORCID_ACCESS_TOKEN based on the response from
+    # the request to /oauth/token providing providing the client_id and client_secret.
+    # Once you have the JSON blob back you can then set the ORCID_ACCESS_TOKEN variable
+    # and export it into your environment.
+    # E.g. `export ORCID_ACCESS_TOKEN=&quot;3b5bd7e6-8499-40ac-ac21-7301b09d4aab&quot;`
+</code></pre>
+
+<p>Update the <em>etc/orcid-api.bash</em> to your orcid api key and credentials. Then run &ndash;</p>
+
+<pre><code class="language-shell">    . etc/orcid-api.bash
+</code></pre>
+
+<h3>Search Examples</h3>
+
+<pre><code class="language-shell">    orcid -search 'Stephen AND Davison AND (Caltech OR &quot;California Institute of Technology&quot;)'
+    orcid -search 'Gail AND Clement AND (Caltech OR &quot;California Institute of Technology&quot;)'
+    orcid -search 'Thomas AND Morrel AND (Caltech OR &quot;California Institute of Technology&quot;)'
+    orcid -search 'Robert AND Doiel AND (Caltech OR &quot;California Institute of Technology&quot;)'
+    orcid -search 'Richard AND Feynman AND (Caltech OR &quot;California Institute of Technology&quot;)'
+</code></pre>
+
+<h3>Fetch ORCID records</h3>
+
+<pre><code class="language-shell">    # Stephen Davison
+    orcid -record 0000-0003-0102-8200
+    # Gail Clement
+    orcid -record 0000-0001-5494-4806
+    # Tom Morrel
+    orcid -record 0000-0001-9266-5146
+    # Robert Doiel
+    orcid -record 0000-0003-0900-6903
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

@@ -1,9 +1,11 @@
 
 # USAGE
 
-## orcid [OPTIONS] ORCID
+```
+    orcid [OPTIONS] ORCID
+```
 
-## SYSNOPIS
+## Description
 
 orcid is a command line tool for harvesting ORCID data from the ORCID API.
 See http://orcid.org/organizations/integrators for details. It requires
@@ -16,16 +18,16 @@ or the command line.
 + ORCID_CLIENT_ID - the client id for your registered ORCID app
 + ORCID_SECRET - the client secret needed to aquire an access token for the AP
 
-
-## OPTIONS
+## OPTIONS	
 
 ```
-	-O	use orcid id
+    -O	use orcid id
 	-activities	display activities
 	-address	display address
 	-educations	display education affiliations
 	-email	display email
 	-employments	display employment affiliations
+	-example	display example(s)
 	-external-ids	display external identifies
 	-fundings	display funding activities
 	-h	display help
@@ -33,8 +35,10 @@ or the command line.
 	-keywords	display keywords
 	-l	display license
 	-license	display license
+	-o	set output filename
 	-orcid	use orcid id
 	-other-names	display other names
+	-output	set output filename
 	-peer-reviews	display peer review activities
 	-person	display person
 	-personal-details	display personal detials
@@ -44,9 +48,9 @@ or the command line.
 	-v	display version
 	-verbose	enable verbose logging
 	-version	display version
-	-works	display 
+	-works	display works summary
+	-works-detailed	display works in detail
 ```
-
 
 ## EXAMPLES
 
@@ -59,5 +63,3 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
     orcid -works 0000-0003-0900-6903
 ```
 
-
-orcid v0.0.4

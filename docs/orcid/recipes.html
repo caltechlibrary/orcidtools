@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">Up</a></li>
+<li><a href="../index.html">README</a></li>
+<li><a href="../license.html">LICENSE</a></li>
+<li><a href="../install.html">INSTALL</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="https://github.com/caltechlibrary/orcidtools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>orcidtools recipes</h1>
+
+<h2>Shell example to render works.bib</h2>
+
+<p>Goal is to use the &ldquo;Works&rdquo; ORCID API call to render a &ldquo;works-detailed.bib&rdquo; file.
+Actually we want to use an <em>orcid</em> cli option called &ldquo;-works-detailed&rdquo;.
+It calls the &ldquo;Works&rdquo; ORCID API end point to get the work ids, then
+gets the detailed works information for each.</p>
+
+<h3>software used</h3>
+
+<ul>
+<li><em>orcid</em> from <a href="https://caltechlibrary.github.io/orcidtools">orcidtools</a></li>
+<li><em>mkpage</em> from <a href="https://caltechlibrary.github.io/mkpage">mkpage</a></li>
+</ul>
+
+<h3>configuration and templates</h3>
+
+<ul>
+<li><em>etc/orcid-api.bash</em> a script holding your ORCID API credentials
+
+<ul>
+<li>see <em>etc/orcid-api.bash-example</em> in the orcidtools repository</li>
+</ul></li>
+<li><em>templates/works-detailed-to-bibtex.tmpl</em> a mkpage text template mapping the values to the desired bibtex output
+
+<ul>
+<li>from the orcidtools repository</li>
+</ul></li>
+</ul>
+
+<h3>Example Shell commands</h3>
+
+<pre><code class="language-shell">    . etc/orcid-api.bash
+    orcid -works-detailed 0000-0003-0900-6903 &gt; works-detailed.json
+    mkpage &quot;data=works.json&quot; templates/works-to-bibtex.tmpl &gt; works-detailed.bib
+    cat works-detailed.bib
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

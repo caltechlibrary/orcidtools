@@ -23,15 +23,6 @@
 </nav>
 
 <section>
-<h1>Documentation</h1>
-
-<ul>
-<li><a href="orcid/">orcid</a> command line tool</li>
-<li><a href="orcid/v2.0_API_end_points.html">support v2.0 API end points</a></li>
-<li><a href="orcid/recipes.html">recipes</a></li>
-<li><a href="orcid/demo.html">demo</a></li>
-<li><a href="reference.html">reference</a></li>
-</ul>
 
 </section>
 

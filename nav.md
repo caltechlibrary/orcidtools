@@ -3,4 +3,4 @@
 + [LICENSE](license.html)
 + [INSTALL](install.html)
 + [Documentation](docs/)
-+ [Github](https://github.com/caltechlibrary/ot)
++ [Github](https://github.com/caltechlibrary/orcidtools)
