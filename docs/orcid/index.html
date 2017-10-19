@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">Up</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../license.html">LICENSE</a></li>
+<li><a href="../../install.html">INSTALL</a></li>
+<li><a href="../">Documentation</a></li>
+<li><a href="https://github.com/caltechlibrary/orcidtools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>    orcid [OPTIONS] ORCID
+</code></pre>
+
+<h2>Description</h2>
+
+<p>orcid is a command line tool for harvesting ORCID data from the ORCID API.
+See <a href="http://orcid.org/organizations/integrators">http://orcid.org/organizations/integrators</a> for details. It requires
+a client id and secret to access. This is set via environment variables
+or the command line.</p>
+
+<h2>CONFIGURATION</h2>
+
+<ul>
+<li>ORCID_API_URL - set the URL for accessing the ORCID API (e.g. sandbox or members URL)</li>
+<li>ORCID_CLIENT_ID - the client id for your registered ORCID app</li>
+<li>ORCID_SECRET - the client secret needed to aquire an access token for the AP</li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -O	use orcid id
+	-activities	display activities
+	-address	display address
+	-educations	display education affiliations
+	-email	display email
+	-employments	display employment affiliations
+	-example	display example(s)
+	-external-ids	display external identifies
+	-fundings	display funding activities
+	-h	display help
+	-help	display help
+	-keywords	display keywords
+	-l	display license
+	-license	display license
+	-o	set output filename
+	-orcid	use orcid id
+	-other-names	display other names
+	-output	set output filename
+	-peer-reviews	display peer review activities
+	-person	display person
+	-personal-details	display personal detials
+	-record	display record
+	-researcher-urls	display researcher urls
+	-search	search for terms
+	-v	display version
+	-verbose	enable verbose logging
+	-version	display version
+	-works	display works summary
+	-works-detailed	display works in detail
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>Get an ORCID &ldquo;works&rdquo; from the sandbox for a given ORCID id.</p>
+
+<pre><code>    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
+    export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
+    export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;
+    orcid -works 0000-0003-0900-6903
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
