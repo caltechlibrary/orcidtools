@@ -25,12 +25,11 @@
 <section>
 <h1>orcidtools recipes</h1>
 
-<h2>Shell example to render works.bib</h2>
+<h2>Using the works end point to generate BibTeX</h2>
 
-<p>Goal is to use the &ldquo;Works&rdquo; ORCID API call to render a &ldquo;works-detailed.bib&rdquo; file.
-Actually we want to use an <em>orcid</em> cli option called &ldquo;-works-detailed&rdquo;.
-It calls the &ldquo;Works&rdquo; ORCID API end point to get the work ids, then
-gets the detailed works information for each.</p>
+<p>Goal of this recipe is to use the <em>orcid</em> cli and the &ldquo;-works-detailed&rdquo;
+option to generate a BibTeX file of the works listed when you view your
+ORCID profile.</p>
 
 <h3>software used</h3>
 
@@ -54,13 +53,27 @@ gets the detailed works information for each.</p>
 </ul></li>
 </ul>
 
+<h3>Configuration</h3>
+
+<p>The configuration needed by the <em>orcid</em> cli is includes three environment variables
+ORCID_API_URL, ORCID_CLIENT_ID and ORCID_CLIENT_SECRET. Here a sample of what an <em>etc/orcid-api.bash</em>
+might look like (note ORCID_CLIENT_ID and ORCID_CLIENT_SECRET are just placeholders as yours will
+be different than mine).</p>
+
+<pre><code class="language-shell">    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
+    export ORCID_CLIENT_ID=&quot;APP-ID-FROM-ORCID-DEVELOPMENT-TOOLS-GOES-HERE&quot;
+    export ORCID_CLIENT_SECRET=&quot;SOME_MIGHT_SECRET_THINGY3_GOES_HERE&quot;
+</code></pre>
+
 <h3>Example Shell commands</h3>
 
 <pre><code class="language-shell">    . etc/orcid-api.bash
     orcid -works-detailed 0000-0003-0900-6903 &gt; works-detailed.json
-    mkpage &quot;data=works.json&quot; templates/works-to-bibtex.tmpl &gt; works-detailed.bib
+    mkpage &quot;data=works-detailed.json&quot; templates/works-detailed-to-bibtex.tmpl &gt; works-detailed.bib
     cat works-detailed.bib
 </code></pre>
+
+<p>The final <em>works-detailed.bib</em> file would look something like.</p>
 
 </section>
 

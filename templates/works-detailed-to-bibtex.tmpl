@@ -1,4 +1,9 @@
-This is a place holder template for developing a BibTeX output from the
-ORCID API's /orcid-works end point.
+{{- range $i, $val := (index .data "bulk") -}}
 
-{{printf "%s" .data}}
+{{- if (eq (index $val "work" "type") "JOURNAL_ARTICLE") }}
+@Article{ id_{{- $i }},
+    {{- with (dotpath ".work.title.title.value" $val "") -}}{{- printf "\n\ttitle = %q,\n" . }}{{- end -}}
+}
+{{- end }}
+
+{{- end }}
