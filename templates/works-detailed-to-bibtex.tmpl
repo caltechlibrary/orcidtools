@@ -1,8 +1,10 @@
 {{- range $i, $val := (index .data "bulk") -}}
 
 {{- if (eq (index $val "work" "type") "JOURNAL_ARTICLE") }}
-@Article{ id_{{- $i }},
-    {{- with (dotpath ".work.title.title.value" $val "") -}}{{- printf "\n\ttitle = %q,\n" . }}{{- end -}}
+@Article{ {{- printf "id_%03d,\n" $i }}
+    {{- with (dotpath ".work.title.title.value" $val "") -}}{{- printf "\ttitle = {%s},\n" . }}{{- end -}}
+    {{- with (dotpath ".work[\"publication-date\"].year.value" $val "") -}}{{- printf "\tyear = {%s},\n" . }}{{- end -}}
+    {{- with (dotpath ".work[\"journal-title\"].value" $val "") -}}{{- printf "\tjournal = {%s},\n" . }}{{- end -}}
 }
 {{- end }}
 

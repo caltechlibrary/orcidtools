@@ -15,7 +15,7 @@ test:
 	go test
 
 lint:
-	golint orcid.go
+	golint orcidtools.go
 	golint cmds/orcid/orcid.go
 
 install:
@@ -29,7 +29,7 @@ save:
 	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
-orcid: orcid.go cmds/orcid/orcid.go
+orcid: orcidtools.go cmds/orcid/orcid.go
 	env go build -o bin/orcid cmds/orcid/orcid.go
 
 
