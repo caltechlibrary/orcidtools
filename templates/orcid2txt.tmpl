@@ -1,0 +1,6 @@
+{{ define "orcid2txt.tmpl" -}}
+{{range $items := .data.bulk -}}
+"{{$items.work.title.title.value}}" {{ index $items "work" "journal-title" "value" }} ({{ index $items "work" "publication-date" "year" "value" }}) https://doi.org/{{ index $items "work" "external-ids" "external-id" 0 "external-id-value"}}
+
+{{end}}
+{{end}}

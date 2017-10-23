@@ -17,10 +17,14 @@ The following are supported, the first three required.
 
 
 If you want to use the API URL https://pub.orcid.org then you'll need to register an application
-to generate your client id and secret.  If you want to experiment with the orcid public api to
-test code (e.g. say test this package) you can use the example client id and secret describe on the
-orcid.org [website](http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier)
-along with the API URL https://pub.sandbox.orcid.org.
+to generate your client id and secret. This is free for most uses, if you
+follow the [instructions](https://support.orcid.org/knowledgebase/articles/343182) 
+
+If you want to experiment with the orcid public api to
+test code (e.g. say test this package) you can use the Sandbox API which is
+full of fake data.  ORCID has provided an example client id and
+secret described in their [documentation](http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier)
+along with the sandbox API URL of https://pub.sandbox.orcid.org.
 
 The bash scripts provided in the repository rely on a few environment variables.
 You can define those variables in a Bash script, sourcing that script will then
@@ -30,7 +34,7 @@ Below is an example of setup script that would be sourced to access the sandbox
 
 ```shell
     #!/bin/bash
-    export ORCID_API_URL="https://pub.sandbox.orcid.rg"
+    export ORCID_API_URL="https://pub.sandbox.orcid.org"
     export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
     export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1""
 ```
@@ -53,8 +57,17 @@ Taking things a step further you can generate a BibTeX from the works in your OR
 
 ```shell
     . etc/sandbox.sh
-    orcid -works 0000-0003-0900-6903 > 0000-0003-0900-6903-works.json
-    mkpage "data=0000-0003-0900-6903-works.json" templates/orcid2bibtex.tmpl > 0000-0003-0900-6903.bib
+    orcid -works-detailed 0000-0003-0900-6903 > 0000-0003-0900-6903-works.json
+    mkpage "data=0000-0003-0900-6903-works.json" templates/works-detailed-to-bibtex.tmpl > 0000-0003-0900-6903.bib
+```
+
+We also include a simple example of tranferring an ORCID profile to a test
+file.  This works on a record that has standard metadata present.
+
+```shell
+. etc/sandbox.sh
+orcid -works-detailed 0000-0003-4476-2464 > 0000-0003-4476-2464-works.json
+mkpage "data=0000-0003-4476-2464-works.json" templates/orcid2txt.tmpl > 0000-0003-0900-6903.txt
 ```
 
 
