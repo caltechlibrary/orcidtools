@@ -3,7 +3,7 @@
 #
 PROJECT = orcidtools
 
-VERSION = $(shell grep 'Version = ' $(PROJECT).go | cut -d \" -f 2)
+VERSION = $(shell grep 'Version = ' $(PROJECT).go | cut -d \` -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
