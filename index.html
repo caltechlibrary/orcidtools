@@ -41,10 +41,14 @@ The following are supported, the first three required.</p>
 </ul>
 
 <p>If you want to use the API URL <a href="https://pub.orcid.org">https://pub.orcid.org</a> then you&rsquo;ll need to register an application
-to generate your client id and secret.  If you want to experiment with the orcid public api to
-test code (e.g. say test this package) you can use the example client id and secret describe on the
-orcid.org <a href="http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier">website</a>
-along with the API URL <a href="https://pub.sandbox.orcid.org">https://pub.sandbox.orcid.org</a>.</p>
+to generate your client id and secret. This is free for most uses, if you
+follow the <a href="https://support.orcid.org/knowledgebase/articles/343182">instructions</a></p>
+
+<p>If you want to experiment with the orcid public api to
+test code (e.g. say test this package) you can use the Sandbox API which is
+full of fake data.  ORCID has provided an example client id and
+secret described in their <a href="http://members.orcid.org/api/tutorial-retrieve-data-public-api-curl-12-and-earlier">documentation</a>
+along with the sandbox API URL of <a href="https://pub.sandbox.orcid.org">https://pub.sandbox.orcid.org</a>.</p>
 
 <p>The bash scripts provided in the repository rely on a few environment variables.
 You can define those variables in a Bash script, sourcing that script will then
@@ -53,7 +57,7 @@ expose those variables in your current Bash session.</p>
 <p>Below is an example of setup script that would be sourced to access the sandbox</p>
 
 <pre><code class="language-shell">    #!/bin/bash
-    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.rg&quot;
+    export ORCID_API_URL=&quot;https://pub.sandbox.orcid.org&quot;
     export ORCID_CLIENT_ID=&quot;APP-01XX65MXBF79VJGF&quot;
     export ORCID_CLIENT_SECRET=&quot;3a87028d-c84c-4d5f-8ad5-38a93181c9e1&quot;&quot;
 </code></pre>
@@ -74,8 +78,16 @@ an ORCID id as a command line parameter so it can get back a specific record.</p
 <a href="https://caltechlibrary.github.io/mkpage">mkpage</a> tool together with the templates included in this repository.</p>
 
 <pre><code class="language-shell">    . etc/sandbox.sh
-    orcid -works 0000-0003-0900-6903 &gt; 0000-0003-0900-6903-works.json
-    mkpage &quot;data=0000-0003-0900-6903-works.json&quot; templates/orcid2bibtex.tmpl &gt; 0000-0003-0900-6903.bib
+    orcid -works-detailed 0000-0003-0900-6903 &gt; 0000-0003-0900-6903-works.json
+    mkpage &quot;data=0000-0003-0900-6903-works.json&quot; templates/works-detailed-to-bibtex.tmpl &gt; 0000-0003-0900-6903.bib
+</code></pre>
+
+<p>We also include a simple example of tranferring an ORCID profile to a test
+file.  This works on a record that has standard metadata present.</p>
+
+<pre><code class="language-shell">. etc/sandbox.sh
+orcid -works-detailed 0000-0003-4476-2464 &gt; 0000-0003-4476-2464-works.json
+mkpage &quot;data=0000-0003-4476-2464-works.json&quot; templates/orcid2txt.tmpl &gt; 0000-0003-0900-6903.txt
 </code></pre>
 
 <h2>Working with the scripts</h2>
@@ -117,7 +129,7 @@ the other scripts to query the ORCID API for profile, bio and works data.</p>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2018 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

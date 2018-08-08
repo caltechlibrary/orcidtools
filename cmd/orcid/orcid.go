@@ -4,7 +4,7 @@
  *
  * @author R. S. Doiel, <rsdoiel@caltech.edu>
  *
- * Copyright (c) 2016, Caltech
+ * Copyright (c) 2018, Caltech
  * All rights not granted herein are expressly reserved by Caltech.
  *
  * Redistribution and use in source and binary forms, with or without
