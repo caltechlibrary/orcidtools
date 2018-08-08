@@ -36,7 +36,6 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"os"
 	"path"
@@ -45,17 +44,15 @@ import (
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/dotpath"
-	ot "github.com/caltechlibrary/orcidtools"
+	ot "github.com/caltechlibrary/ot"
 )
 
 var (
-	usage = "USAGE: %s [OPTIONS] ORCID"
-
+	synopsis = `
+_orcid_ is a program for harvesting ORCID from the orcid.org API.
+`
 	description = `
-
-SYSNOPIS
-
-%s is a command line tool for harvesting ORCID data from the ORCID API.
+_orcid_ is a command line tool for harvesting ORCID data from the ORCID API.
 See http://orcid.org/organizations/integrators for details. It requires
 a client id and secret to access. This is set via environment variables
 or the command line.
@@ -69,25 +66,24 @@ CONFIGURATION
 `
 
 	examples = `
-
-EXAMPLES
-
 Get an ORCID "works" from the sandbox for a given ORCID id.
-
+` + "```" + `
     export ORCID_API_URL="https://pub.sandbox.orcid.org"
     export ORCID_CLIENT_ID="APP-01XX65MXBF79VJGF"
     export ORCID_CLIENT_SECRET="3a87028d-c84c-4d5f-8ad5-38a93181c9e1"
-    %s -works 0000-0003-0900-6903
-
+    orcid -works 0000-0003-0900-6903
+` + "```" + `
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	verbose      bool
-	outputFName  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	verbose          bool
+	outputFName      string
+	generateMarkdown bool
+	generateManPage  bool
 
 	// Application Options
 	showRecord              bool
@@ -117,78 +113,81 @@ Get an ORCID "works" from the sandbox for a given ORCID id.
 )
 
 func init() {
-	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
-	flag.StringVar(&outputFName, "o", "", "set output filename")
-	flag.StringVar(&outputFName, "output", "", "set output filename")
-
-	// Application Options
-	flag.BoolVar(&showRecord, "record", false, "display record")
-	flag.BoolVar(&showPerson, "person", false, "display person")
-	flag.BoolVar(&showAddress, "address", false, "display address")
-	flag.BoolVar(&showEmail, "email", false, "display email")
-	flag.BoolVar(&showExternalIdentifiers, "external-ids", false, "display external identifies")
-	flag.BoolVar(&showKeywords, "keywords", false, "display keywords")
-	flag.BoolVar(&showOtherNames, "other-names", false, "display other names")
-	flag.BoolVar(&showPersonalDetails, "personal-details", false, "display personal detials")
-	flag.BoolVar(&showResearcherURLS, "researcher-urls", false, "display researcher urls")
-	flag.BoolVar(&showActivities, "activities", false, "display activities")
-	flag.BoolVar(&showEducations, "educations", false, "display education affiliations")
-	flag.BoolVar(&showEmployments, "employments", false, "display employment affiliations")
-	flag.BoolVar(&showFundings, "fundings", false, "display funding activities")
-	flag.BoolVar(&showPeerReviews, "peer-reviews", false, "display peer review activities")
-	flag.BoolVar(&showWorks, "works", false, "display works summary")
-	flag.BoolVar(&showWorksDetailed, "works-detailed", false, "display works in detail")
-	flag.StringVar(&searchString, "search", "", "search for terms")
-
-	flag.StringVar(&orcidID, "O", "", "use orcid id")
-	flag.StringVar(&orcidID, "orcid", "", "use orcid id")
 }
 
 func main() {
 	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	app := cli.NewCli(ot.Version)
+	app.AddHelp("synopsis", []byte(synopsis))
+	app.AddHelp("description", []byte(description))
+	app.AddHelp("examples", []byte(examples))
+	app.AddHelp("license", []byte(fmt.Sprintf(ot.LicenseText, appName, ot.Version)))
 
-	cfg := cli.New(appName, "ORCID", ot.Version)
-	cfg.LicenseText = fmt.Sprintf(ot.LicenseText, appName, ot.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
-	cfg.ExampleText = fmt.Sprintf(examples, appName)
+	// Standard Options
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.BoolVar(&verbose, "verbose", false, "enable verbose logging")
+	app.StringVar(&outputFName, "o,output", "", "set output filename")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate Markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 
-	// Process flags and update the environment as needed.
-	if showHelp == true {
+	// Application Options
+	app.BoolVar(&showRecord, "record", false, "display record")
+	app.BoolVar(&showPerson, "person", false, "display person")
+	app.BoolVar(&showAddress, "address", false, "display address")
+	app.BoolVar(&showEmail, "email", false, "display email")
+	app.BoolVar(&showExternalIdentifiers, "external-ids", false, "display external identifies")
+	app.BoolVar(&showKeywords, "keywords", false, "display keywords")
+	app.BoolVar(&showOtherNames, "other-names", false, "display other names")
+	app.BoolVar(&showPersonalDetails, "personal-details", false, "display personal detials")
+	app.BoolVar(&showResearcherURLS, "researcher-urls", false, "display researcher urls")
+	app.BoolVar(&showActivities, "activities", false, "display activities")
+	app.BoolVar(&showEducations, "educations", false, "display education affiliations")
+	app.BoolVar(&showEmployments, "employments", false, "display employment affiliations")
+	app.BoolVar(&showFundings, "fundings", false, "display funding activities")
+	app.BoolVar(&showPeerReviews, "peer-reviews", false, "display peer review activities")
+	app.BoolVar(&showWorks, "works", false, "display works summary")
+	app.BoolVar(&showWorksDetailed, "works-detailed", false, "display works in detail")
+	app.StringVar(&searchString, "search", "", "search for terms")
+
+	app.StringVar(&orcidID, "O,orcid", "", "use orcid id")
+
+	// Process apps and update the environment as needed.
+	app.Parse()
+	args := app.Args()
+
+	if generateMarkdown {
+		app.GenerateMarkdown(os.Stdout)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(os.Stdout)
+		os.Exit(0)
+	}
+
+	if showHelp {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintf(os.Stdout, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(os.Stdout)
 		}
 		os.Exit(0)
 	}
 
-	if showExamples == true {
+	if showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
+			fmt.Fprintf(app.Out, app.Help(args...))
 		}
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showLicense {
+		fmt.Println(app.License())
 		os.Exit(0)
 	}
-	if showVersion == true {
-		fmt.Println(cfg.Version())
+	if showVersion {
+		fmt.Println(app.Version())
 		os.Exit(0)
 	}
 
@@ -196,9 +195,15 @@ func main() {
 		orcidID = args[0]
 	}
 
-	apiURL = cfg.CheckOption("api_url", cfg.MergeEnv("api_url", apiURL), true)
-	clientID = cfg.CheckOption("client_id", cfg.MergeEnv("client_id", clientID), true)
-	clientSecret = cfg.CheckOption("client_secret", cfg.MergeEnv("client_secret", clientSecret), true)
+	if apiURL == "" {
+		apiURL = os.Getenv("ORCID_API_URL")
+	}
+	if clientID == "" {
+		clientID = os.Getenv("ORCID_CLIENT_ID")
+	}
+	if clientSecret == "" {
+		clientSecret = os.Getenv("ORCID_CLIENT_SECRET")
+	}
 
 	var requestType string
 
@@ -282,7 +287,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	orcidID = cfg.CheckOption("orcid_id", cfg.MergeEnv("orcid_id", orcidID), true)
+	if orcidID == "" {
+		orcidID = os.Getenv("ORCID_ID")
+	}
 	if requestType == "works-detailed" {
 		src, err := api.Request("GET", fmt.Sprintf("/v2.0/%s/%s", orcidID, "works"), map[string]string{})
 		if err != nil {

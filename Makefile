@@ -16,10 +16,10 @@ test:
 
 lint:
 	golint orcidtools.go
-	golint cmds/orcid/orcid.go
+	golint cmd/orcid/orcid.go
 
 install:
-	env GOBIN=$(GOPATH)/bin go install cmds/orcid/orcid.go
+	env GOBIN=$(GOPATH)/bin go install cmd/orcid/orcid.go
 
 
 status:
@@ -29,13 +29,18 @@ save:
 	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
-orcid: orcidtools.go cmds/orcid/orcid.go
-	env go build -o bin/orcid cmds/orcid/orcid.go
+orcid: orcidtools.go cmd/orcid/orcid.go
+	env go build -o bin/orcid cmd/orcid/orcid.go
 
 
 clean:
 	if [ -d bin ]; then /bin/rm -fR bin; fi
 	if [ -d dist ]; then /bin/rm -fR dist; fi
+	if [ -d man ]; then /bin/rm -fR man; fi
+
+man: build
+	mkdir -p man/man1
+	bin/orcid -generate-manpage | nroff -Tutf8 -man > man/man1/orcid.1
 
 website:
 	./mk-website.bash
@@ -46,25 +51,25 @@ publish: website
 
 dist/linux-amd64:
 	mkdir -p dist/bin
-	env GOOS=linux GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	env GOOS=linux GOARCH=amd64 go build -o dist/bin/orcid cmd/orcid/orcid.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/* templates/*
 	rm -fR dist/bin
 
 dist/windows-amd64:
 	mkdir -p dist/bin
-	env GOOS=windows GOARCH=amd64 go build -o dist/bin/orcid.exe cmds/orcid/orcid.go
+	env GOOS=windows GOARCH=amd64 go build -o dist/bin/orcid.exe cmd/orcid/orcid.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/* templates/*
 	rm -fR dist/bin
 
 dist/macosx-amd64:
 	mkdir -p dist/bin
-	env GOOS=darwin GOARCH=amd64 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	env GOOS=darwin GOARCH=amd64 go build -o dist/bin/orcid cmd/orcid/orcid.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md docs/* etc/* bin/* templates/*
 	rm -fR dist/bin
 
 dist/raspbian-arm7:
 	mkdir -p dist/bin
-	env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/orcid cmds/orcid/orcid.go
+	env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/orcid cmd/orcid/orcid.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md docs/* etc/* bin/* templates/*
 	rm -fR dist/bin
 
