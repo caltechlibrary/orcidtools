@@ -44,7 +44,7 @@ import (
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/dotpath"
-	ot "github.com/caltechlibrary/ot"
+	ot "github.com/caltechlibrary/orcidtools"
 )
 
 var (
